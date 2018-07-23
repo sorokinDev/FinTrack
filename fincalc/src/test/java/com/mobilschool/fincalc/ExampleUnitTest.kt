@@ -23,7 +23,7 @@ class OperationsUnitTest {
         )
 
 
-        val balance = Operations.getBalance(listRecords, "Ruble")
+        val balance = Operations.getBalance(listRecords, "RUB")
 
         assertThat(balance, `is`(3193.5) )
     }
