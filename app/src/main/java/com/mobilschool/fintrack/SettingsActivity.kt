@@ -89,8 +89,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             super.onCreate(savedInstanceState)
             addPreferencesFromResource(R.xml.pref_general)
             setHasOptionsMenu(true)
-
-
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {

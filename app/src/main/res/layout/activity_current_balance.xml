@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CurrentBalance.CurrentBalanceActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:context=".CurrentBalance.CurrentBalanceActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -22,8 +21,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="81dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/captionCurrentBalance"
@@ -32,7 +30,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/current_balance"
-                android:textSize="26sp"
+                android:textSize="26dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +45,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:text="USD"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 app:layout_constraintEnd_toStartOf="@+id/currentBalanceUsd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/captionCurrentBalance" />
@@ -63,7 +61,7 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="RUB"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/currentBalanceRub"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +74,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="TextView"
-                android:textSize="30sp"
+                android:textSize="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rubTextView"
                 app:layout_constraintTop_toBottomOf="@+id/captionCurrentBalance" />
@@ -89,7 +87,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center_vertical|center_horizontal"
                 android:text="TextView"
-                android:textSize="30sp"
+                android:textSize="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/rubTextView"
