@@ -10,20 +10,29 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".CurrentBalance.CurrentBalanceActivity">
+        android:theme="@style/Theme.AppCompat.DayNight"
+        android:name=".FinTrackerApplication">
+        <activity android:name="com.mobilschool.fintrack.ui.balance.BalanceOperationsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".CurrentBalance.CurrentBalanceActivity">
+            android:parentActivityName="com.mobilschool.fintrack.ui.balance.BalanceOperationsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobilschool.fintrack.CurrentBalance.CurrentBalanceActivity" />
+                android:value="com.mobilschool.fintrack.ui.balance.BalanceOperationsActivity" />
+        </activity>
+        <activity android:name="com.mobilschool.fintrack.ui.bills.BillsActivity"
+            android:parentActivityName="com.mobilschool.fintrack.ui.balance.BalanceOperationsActivity"
+            android:label="@string/title_bills_activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mobilschool.fintrack.ui.balance.BalanceOperationsActivity" />
         </activity>
     </application>
 
