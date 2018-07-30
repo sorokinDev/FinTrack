@@ -5,10 +5,7 @@ import com.mobilschool.fintrack.data.Operation
 
 interface OperationsContract {
 
-    interface View : BaseView<Presenter> {
-
-    }
-
+    interface View : BaseView<Presenter> {}
 
     interface Presenter {
         fun getOperations():List<Operation>

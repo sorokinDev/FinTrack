@@ -12,9 +12,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mobilschool.fintrack.FinTrackerApplication
-import com.mobilschool.fintrack.ui.newoperation.AddNewOperationDialogFragment
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.ui.newoperation.AddNewOperationContract
+import com.mobilschool.fintrack.ui.newoperation.AddNewOperationDialogFragment
 import com.mobilschool.fintrack.ui.newoperation.AddNewOperationPresenter
 import com.razerdp.widget.animatedpieview.AnimatedPieView
 import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig

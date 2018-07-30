@@ -20,11 +20,8 @@ class BalanceOperationsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance_operations)
-
         initViewPager()
     }
-
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -55,7 +52,7 @@ class BalanceOperationsActivity : AppCompatActivity() {
 
     }
 
-    private fun initViewPager(){
+    private fun initViewPager() {
 
         val adapter = BalanceOperationsAdapter(supportFragmentManager)
 

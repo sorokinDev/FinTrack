@@ -5,15 +5,11 @@ import io.reactivex.Single
 
 interface BalanceContract {
 
-    interface View : BaseView<Presenter> {
-
-
-    }
-
+    interface View : BaseView<Presenter> {}
 
     interface Presenter {
 
-        fun getBalance(to:String): Single<Double?>
+        fun getBalance(to: String): Single<Double?>
 
         fun getBalanceByCategories(): Map<String, Double>
     }
