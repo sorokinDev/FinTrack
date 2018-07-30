@@ -1,20 +1,22 @@
-package com.mobilschool.fintrack
+package com.mobilschool.fintrack.ui.newoperation
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Switch
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.snackbar.Snackbar
+import com.mobilschool.fincalc.TypeOperation
+import com.mobilschool.fintrack.FinTrackerApplication
+import com.mobilschool.fintrack.R
+import com.mobilschool.fintrack.data.Operation
+import com.mobilschool.fintrack.ui.DatePickerFragment
 
 
-class AddNewOperationDialogFragment : DialogFragment() {
+class AddNewOperationDialogFragment : DialogFragment(), AddNewOperationContract.View {
 
-    //lateinit var presenter: BalanceContract.Presenter
+    override lateinit var presenter: AddNewOperationContract.Presenter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -27,6 +29,7 @@ class AddNewOperationDialogFragment : DialogFragment() {
             val adapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, context.resources.getStringArray(R.array.category))
             val incomeOutcomeSwitcher = findViewById<Switch>(R.id.incomeOutcomeSwitch)
             val inputDate = findViewById<EditText>(R.id.date)
+            val amount = findViewById<EditText>(R.id.amount)
 
             inputDate.setOnClickListener { v ->
 
@@ -44,21 +47,27 @@ class AddNewOperationDialogFragment : DialogFragment() {
 
             }
             categories.adapter = adapter
+
+            builder.setView(view)
+                    .setTitle(R.string.title_dialog_new_operation)
+                    .setPositiveButton("OK") { dialogInterface, i ->
+                        activity?.apply {
+                             val operation = Operation(amount.text.toString(), FinTrackerApplication.BASE_CURRENCY, inputDate.text.toString(), categories?.selectedItem as String, if (incomeOutcomeSwitcher.isChecked) TypeOperation.INCOME else TypeOperation.OUTCOME)
+                             presenter.addOperation(operation)
+                        }
+
+                    }
+                    .setNegativeButton("Отмена") { dialogInterface, i -> }
+
         }
 
-        builder.setView(view)
-                .setTitle(R.string.title_dialog_new_operation)
-                .setPositiveButton("OK") { dialogInterface, i ->
-
-                    activity?.apply {
-                        Snackbar.make(findViewById<CoordinatorLayout>(R.id.balance_operations_layout_container), R.string.success_add_record, Snackbar.LENGTH_SHORT)
-                                .show()
-                    }
-
-                }
-                .setNegativeButton("Отмена") { dialogInterface, i -> }
-
         return builder.create()
+    }
+
+
+    override fun showMessage(isSuccess: Boolean) {
+        val caption = if (isSuccess) R.string.success_add_record else R.string.failed_add_record
+        Toast.makeText(context,caption, Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -3,19 +3,19 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/myCoordinatorLayout"
+    android:id="@+id/balance_operations_layout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".CurrentBalance.CurrentBalanceActivity"
+        tools:context=".ui.balance.CurrentBalanceActivity"
         tools:layout_editor_absoluteY="81dp">
 
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/slidingTabs"
+            android:id="@+id/tabs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,11 +27,11 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="462dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/slidingTabs" />
+            app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

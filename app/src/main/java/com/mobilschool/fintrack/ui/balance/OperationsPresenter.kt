@@ -1,10 +1,15 @@
-package com.mobilschool.fintrack.CurrentBalance
+package com.mobilschool.fintrack.ui.balance
 
 import com.mobilschool.fincalc.TypeOperation
+import com.mobilschool.fintrack.data.Operation
 import java.text.SimpleDateFormat
 import java.util.*
 
-class OperationsPresenter : OperationsContract.Presenter {
+class OperationsPresenter(var view: OperationsContract.View) : OperationsContract.Presenter {
+
+    init {
+        view.presenter = this
+    }
 
     override fun getOperations(): List<Operation> {
 

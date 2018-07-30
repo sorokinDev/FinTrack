@@ -1,8 +1,7 @@
 package com.mobilschool.fintrack
 
+import com.mobilschool.fintrack.service.ExchangeRatesService
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +11,14 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+
+        ExchangeRatesService.ratesService
+                .getRate("RUB","USD")
+                .map { it.rates["USD"]?.times(30000) }
+                .subscribe { currensyRates->
+                    print(currensyRates)
+                }
+
+
     }
 }

@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack
+package com.mobilschool.fintrack.ui
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -17,6 +17,8 @@ import android.preference.RingtonePreference
 import android.text.TextUtils
 import android.view.MenuItem
 import androidx.core.app.NavUtils
+import com.mobilschool.fintrack.AppCompatPreferenceActivity
+import com.mobilschool.fintrack.R
 
 /**
  * A [PreferenceActivity] that presents a set of application settings. On

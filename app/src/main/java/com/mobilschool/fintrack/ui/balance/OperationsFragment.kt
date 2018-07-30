@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.CurrentBalance
+package com.mobilschool.fintrack.ui.balance
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -63,9 +63,8 @@ class OperationsFragment : Fragment(), OperationsContract.View {
 
 
     companion object {
-        fun newInstance(presenter: OperationsContract.Presenter): OperationsFragment {
-            val fragment = OperationsFragment()
-            fragment.presenter = presenter
+        fun newInstance(): OperationsFragment {
+                val fragment = OperationsFragment()
             return fragment
         }
     }

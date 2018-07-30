@@ -1,7 +1,26 @@
 <resources>
+
+    <string-array name="titles_tabs">
+        <item>Главная</item>
+        <item>Операции</item>
+    </string-array>
+
+    <string name="amount">Сумма</string>
+    <string name="category">Категории</string>
+    <string name="date">Дата</string>
+
+    <string name="income">Доходы</string>
+    <string name="outcome">Расходы</string>
+    
+    <string name="title_dialog_new_operation">Добавить запись</string>
+    <string name="success_add_record">Запись успешно добавлена</string>
+    <string name="failed_add_record">Ошибка добавления записи</string>
+
+    <string name="title_bills_activity">Счета</string>
+
     <string name="app_name">FinTrack</string>
 
-    <string name="current_balance">Баланс</string>
+    <string name="current_balance">Баланс счета</string>
 
     <string-array name="name_currency">
         <item>USD</item>

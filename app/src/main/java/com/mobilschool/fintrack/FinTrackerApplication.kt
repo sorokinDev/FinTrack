@@ -1,4 +1,11 @@
 package com.mobilschool.fintrack
 
-class FinTrackerApplication {
+import android.app.Application
+
+class FinTrackerApplication: Application() {
+
+    companion object {
+        val BASE_CURRENCY = "RUB"
+    }
+
 }
