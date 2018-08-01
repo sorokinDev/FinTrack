@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack
+package com.mobilschool.fintrack.ui.settings
 
 import android.content.res.Configuration
 import android.os.Bundle

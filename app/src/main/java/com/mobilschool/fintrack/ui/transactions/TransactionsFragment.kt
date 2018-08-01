@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.ui.balance
+package com.mobilschool.fintrack.ui.transactions
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,26 +10,23 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.data.Operation
+import com.mobilschool.fintrack.data.model.Transaction
 
-class OperationsFragment : Fragment(), OperationsContract.View {
+class TransactionsFragment : Fragment(), TranscationsContract.View {
 
-    override lateinit var presenter: OperationsContract.Presenter
+    override var presenter: TranscationsContract.Presenter = TransactionsPresenter(null, null)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_operations, container, false)
-
         view.findViewById<RecyclerView>(R.id.list_operations).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = OperationsAdapter(presenter.getOperations())
         }
-
         return view
     }
 
-    private class OperationsAdapter(private val operationList: List<Operation>) : RecyclerView.Adapter<OperationsAdapter.ViewHolder>() {
-
+    private class OperationsAdapter(private val transactionList: List<Transaction>) : RecyclerView.Adapter<OperationsAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_operation, parent, false)
@@ -37,15 +34,15 @@ class OperationsFragment : Fragment(), OperationsContract.View {
         }
 
         override fun getItemCount(): Int {
-            return operationList.size
+            return transactionList.size
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-            holder.amount.text = operationList[position].amount
-            holder.category.text = operationList[position].category
-            holder.date.text = operationList[position].date
-            holder.currencyName.text = operationList[position].currencyName
+            holder.amount.text = transactionList[position].amount
+            holder.category.text = transactionList[position].category
+            holder.date.text = transactionList[position].date
+            holder.currencyName.text = transactionList[position].currencyName
             //holder.typeOperation.drawable
         }
 
@@ -56,15 +53,17 @@ class OperationsFragment : Fragment(), OperationsContract.View {
             val category = itemView.findViewById<TextView>(R.id.category)
             val currencyName = itemView.findViewById<TextView>(R.id.currencyName)
             val typeOperation = itemView.findViewById<ImageView>(R.id.typeOperation)
-
         }
-
     }
 
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
+    }
 
     companion object {
-        fun newInstance(): OperationsFragment {
-                val fragment = OperationsFragment()
+        fun newInstance(): TransactionsFragment {
+            val fragment = TransactionsFragment()
             return fragment
         }
     }
