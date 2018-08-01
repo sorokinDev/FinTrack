@@ -1,6 +1,7 @@
 package com.mobilschool.fintrack.service
 
 import com.mobilschool.fintrack.BuildConfig
+import com.mobilschool.fintrack.data.model.CurrencyRate
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,11 +43,7 @@ interface ExchangeRatesService {
     }
 }
 
-data class CurrencyRate(
-        val date: String,
-        val base: String,
-        val rates: Map<String, Double>
-)
+
 
 
 

@@ -2,11 +2,9 @@
 <resources>
 
     <string-array name="category">
-        <item>Продукты</item>
-        <item>Одежда</item>
-        <item>Коммунальные платежи</item>
+        <item>Products</item>
+        <item>Clothes</item>
+        <item>Utilites</item>
     </string-array>
-
-
 
 </resources>
