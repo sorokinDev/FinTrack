@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.data.model
+package com.mobilschool.fintrack.data.entity
 
 data class CurrencyRate(
         val date: String,

@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.data.model
+package com.mobilschool.fintrack.data.entity
 
 import com.mobilschool.fintrack.FinTrackerApplication
 import io.reactivex.Observable

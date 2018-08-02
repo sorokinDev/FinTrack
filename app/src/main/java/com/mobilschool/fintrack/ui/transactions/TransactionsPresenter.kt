@@ -1,8 +1,8 @@
 package com.mobilschool.fintrack.ui.transactions
 
 import com.mobilschool.fintrack.FinTrackerApplication
-import com.mobilschool.fintrack.data.model.Repository
-import com.mobilschool.fintrack.data.model.Transaction
+import com.mobilschool.fintrack.data.entity.Repository
+import com.mobilschool.fintrack.data.entity.Transaction
 import com.mobilschool.fintrack.ui.base.BasePresenter
 import javax.inject.Inject
 

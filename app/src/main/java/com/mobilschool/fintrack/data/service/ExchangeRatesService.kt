@@ -1,7 +1,7 @@
 package com.mobilschool.fintrack.data.service
 
 import com.mobilschool.fintrack.BuildConfig
-import com.mobilschool.fintrack.data.model.CurrencyRate
+import com.mobilschool.fintrack.data.entity.CurrencyRate
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

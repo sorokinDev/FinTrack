@@ -1,13 +1,12 @@
 package com.mobilschool.fintrack
 
-import android.app.Application
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import java.util.*
 import android.preference.PreferenceManager
 import com.mobilschool.fincalc.TypeOperation
-import com.mobilschool.fintrack.data.model.Account
-import com.mobilschool.fintrack.data.model.Transaction
+import com.mobilschool.fintrack.data.entity.Account
+import com.mobilschool.fintrack.data.entity.Transaction
 import com.mobilschool.fintrack.di.component.DaggerAppComponent
 import com.mobilschool.fintrack.util.Utils
 import dagger.android.AndroidInjector

@@ -4,7 +4,7 @@ import com.mobilschool.fincalc.Record
 import com.mobilschool.fincalc.entity.currency.Currency
 import com.mobilschool.fincalc.entity.currency.RUB
 import com.mobilschool.fincalc.entity.currency.USD
-import com.mobilschool.fintrack.data.model.Transaction
+import com.mobilschool.fintrack.data.entity.Transaction
 import java.text.SimpleDateFormat
 import java.util.*
 

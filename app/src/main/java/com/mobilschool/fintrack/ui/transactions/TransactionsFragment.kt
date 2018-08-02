@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.data.model.Transaction
+import com.mobilschool.fintrack.data.entity.Transaction
 import com.mobilschool.fintrack.ui.base.BaseFragment
 import javax.inject.Inject
 
