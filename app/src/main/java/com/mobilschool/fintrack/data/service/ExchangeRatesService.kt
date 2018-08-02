@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.service
+package com.mobilschool.fintrack.data.service
 
 import com.mobilschool.fintrack.BuildConfig
 import com.mobilschool.fintrack.data.model.CurrencyRate

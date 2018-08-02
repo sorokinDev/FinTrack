@@ -9,12 +9,22 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.mobilschool.fintrack.R
 import com.mobilschool.fintrack.data.model.Transaction
+import com.mobilschool.fintrack.ui.base.BaseFragment
+import javax.inject.Inject
 
-class TransactionsFragment : Fragment(), TranscationsContract.View {
+class TransactionsFragment : BaseFragment(), TransactionsView {
 
-    override var presenter: TranscationsContract.Presenter = TransactionsPresenter(null, null)
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: TransactionsPresenter
+
+    @ProvidePresenter
+    fun providePresenter() = presenter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -54,11 +64,6 @@ class TransactionsFragment : Fragment(), TranscationsContract.View {
             val currencyName = itemView.findViewById<TextView>(R.id.currencyName)
             val typeOperation = itemView.findViewById<ImageView>(R.id.typeOperation)
         }
-    }
-
-    override fun onDestroy() {
-        presenter.detachView()
-        super.onDestroy()
     }
 
     companion object {

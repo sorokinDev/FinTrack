@@ -1,23 +1,26 @@
 package com.mobilschool.fintrack.ui.balance
 
+import com.arellomobile.mvp.InjectViewState
 import com.mobilschool.fincalc.Operations
 import com.mobilschool.fintrack.FinTrackerApplication
 import com.mobilschool.fintrack.data.model.Repository
-import com.mobilschool.fintrack.service.ExchangeRatesService
+import com.mobilschool.fintrack.data.service.ExchangeRatesService
+import com.mobilschool.fintrack.ui.base.BasePresenter
 import com.mobilschool.fintrack.util.Utils
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-
-class BalancePresenter(var view: BalanceContract.View?, val repository: Repository?) : BalanceContract.Presenter {
-
+@InjectViewState
+class BalancePresenter @Inject constructor(val repository: Repository): BasePresenter<BalanceView>() {
 
     private val exchangeRatesService: ExchangeRatesService = ExchangeRatesService.ratesService
     val ERROR_RECIEVE_RATE = 0.0
 
-    override fun getBalance(to: String): Single<Double?> {
+    fun getBalance(to: String): Single<Double?> {
 
         val account = FinTrackerApplication.mockAccounts.first { it.uniqueName == FinTrackerApplication.CURRENT_ACCOUNT }
         val records = Utils.convertToRecords(account.transactions)
@@ -33,7 +36,7 @@ class BalancePresenter(var view: BalanceContract.View?, val repository: Reposito
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getBalanceByCategories(): Observable<Pair<String, Double>> {
+    fun getBalanceByCategories(): Observable<Pair<String, Double>> {
 
         val account = FinTrackerApplication.mockAccounts.first { it.uniqueName == FinTrackerApplication.CURRENT_ACCOUNT }
 
@@ -45,7 +48,7 @@ class BalancePresenter(var view: BalanceContract.View?, val repository: Reposito
 
     }
 
-    override fun getSumWithoutIncomeOutcome(): Single<Double> {
+    fun getSumWithoutIncomeOutcome(): Single<Double> {
         val account = FinTrackerApplication.mockAccounts.first { it.uniqueName == FinTrackerApplication.CURRENT_ACCOUNT }
         val records = Utils.convertToRecords(account.transactions)
         return Single.just(Operations.sumAllOperations(records, FinTrackerApplication.BASE_CURRENCY))
@@ -53,12 +56,5 @@ class BalancePresenter(var view: BalanceContract.View?, val repository: Reposito
 
 
 
-    override fun attachView(view: BalanceContract.View) {
-        this.view = view
-    }
-
-    override fun detachView() {
-        view = null
-    }
 }
 
