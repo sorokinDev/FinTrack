@@ -11,22 +11,32 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mobilschool.fincalc.Operations
 import com.mobilschool.fintrack.FinTrackerApplication
 import com.mobilschool.fintrack.R
+import com.mobilschool.fintrack.ui.base.BaseFragment
 import com.mobilschool.fintrack.util.Utils
 import com.razerdp.widget.animatedpieview.AnimatedPieView
 import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig
 import com.razerdp.widget.animatedpieview.data.SimplePieInfo
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 
-class BalanceFragment : Fragment(), BalanceContract.View {
+class BalanceFragment : BaseFragment(), BalanceView {
 
 
-    override var presenter: BalanceContract.Presenter = BalancePresenter(null, null)
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: BalancePresenter
+
+    @ProvidePresenter
+    fun providePresenter() = presenter
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_current_balance, container, false)
@@ -162,10 +172,6 @@ class BalanceFragment : Fragment(), BalanceContract.View {
     }
 
 
-    override fun onDestroy() {
-        presenter.detachView()
-        super.onDestroy()
-    }
 
     companion object {
         fun newInstance(/*, dialogPresenter: AddNewOperationContract.Presenter*/): BalanceFragment {

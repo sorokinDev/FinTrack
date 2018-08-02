@@ -8,10 +8,13 @@ import android.preference.PreferenceManager
 import com.mobilschool.fincalc.TypeOperation
 import com.mobilschool.fintrack.data.model.Account
 import com.mobilschool.fintrack.data.model.Transaction
+import com.mobilschool.fintrack.di.component.DaggerAppComponent
 import com.mobilschool.fintrack.util.Utils
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 
 
-class FinTrackerApplication : Application() {
+class FinTrackerApplication : DaggerApplication() {
 
     companion object {
         val BASE_CURRENCY = "RUB"
@@ -56,4 +59,6 @@ class FinTrackerApplication : Application() {
         config.locale = locale
         baseContext.resources.updateConfiguration(config, null)
     }
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication>
+            = DaggerAppComponent.builder().create(this).build()
 }

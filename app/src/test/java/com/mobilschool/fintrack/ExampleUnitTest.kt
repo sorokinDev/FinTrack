@@ -1,6 +1,6 @@
 package com.mobilschool.fintrack
 
-import com.mobilschool.fintrack.service.ExchangeRatesService
+import com.mobilschool.fintrack.data.service.ExchangeRatesService
 import org.junit.Test
 
 /**

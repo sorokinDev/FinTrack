@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.ui
+package com.mobilschool.fintrack.ui.main
 
 
 import android.content.Intent
@@ -7,21 +7,35 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListAdapter
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.mobilschool.fintrack.FinTrackerApplication
 import com.mobilschool.fintrack.R
+import com.mobilschool.fintrack.ui.AboutDialogFragment
 import com.mobilschool.fintrack.ui.balance.BalanceFragment
+import com.mobilschool.fintrack.ui.base.BaseActivity
 import com.mobilschool.fintrack.ui.settings.SettingsActivity
 import com.mobilschool.fintrack.ui.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.activity_balance_operations.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(), MainView {
+    override fun showMsg(par: String) {
+        Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
+    }
+
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
+
+    @ProvidePresenter
+    fun providePresenter() = presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

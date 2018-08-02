@@ -3,8 +3,9 @@ package com.mobilschool.fintrack.data.model
 import com.mobilschool.fintrack.FinTrackerApplication
 import io.reactivex.Observable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class Repository {
+class Repository @Inject constructor() {
 
     fun addTransaction(transcation: Transaction) {
         TODO()
