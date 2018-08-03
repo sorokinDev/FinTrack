@@ -1,6 +1,6 @@
 package com.mobilschool.fintrack
 
-import com.mobilschool.fintrack.data.service.ExchangeRatesService
+import com.mobilschool.fintrack.data.source.remote.api.ExchangeRateApi
 import org.junit.Test
 
 /**
@@ -12,7 +12,7 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
 
-        ExchangeRatesService.ratesService
+        ExchangeRateApi.ratesService
                 .getRate("RUB","USD")
                 .map { it.rates["USD"]?.times(30000) }
                 .subscribe { currensyRates->

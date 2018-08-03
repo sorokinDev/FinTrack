@@ -78,7 +78,7 @@ class MainActivity : BaseActivity(), MainView {
 
                 FinTrackerApplication.mockAccounts.forEach {
                     adapter.add(MaterialSimpleListItem.Builder(this)
-                            .content(it.uniqueName)
+                            .content(it.accountName)
                             .icon(R.drawable.ic_bills)
                             .backgroundColor(Color.WHITE)
                             .build())

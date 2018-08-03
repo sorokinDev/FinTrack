@@ -1,0 +1,114 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6456556268559513069",
+      "lastPropertyId": "2:994171962948254804",
+      "name": "MoneyCurrency",
+      "properties": [
+        {
+          "id": "1:2267163035582214073",
+          "name": "id"
+        },
+        {
+          "id": "2:994171962948254804",
+          "name": "code"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:6402613049843140533",
+      "lastPropertyId": "6:3195709702058594472",
+      "name": "MoneyTransaction",
+      "properties": [
+        {
+          "id": "1:3638453413357146731",
+          "name": "id"
+        },
+        {
+          "id": "2:7921063437056295405",
+          "name": "amount"
+        },
+        {
+          "id": "3:4682308589445437968",
+          "name": "type"
+        },
+        {
+          "id": "4:4396012488908613807",
+          "indexId": "1:1602933323512802167",
+          "name": "currencyId"
+        },
+        {
+          "id": "5:8010107412991313057",
+          "indexId": "2:6427524057143813251",
+          "name": "walletId"
+        },
+        {
+          "id": "6:3195709702058594472",
+          "indexId": "3:4080998804295648711",
+          "name": "categoryId"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:8665149594994358431",
+      "lastPropertyId": "3:5585392029007160216",
+      "name": "TransactionCategory",
+      "properties": [
+        {
+          "id": "1:290518265270328710",
+          "name": "id"
+        },
+        {
+          "id": "2:7109307238863619520",
+          "name": "name"
+        },
+        {
+          "id": "3:5585392029007160216",
+          "name": "type"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:3811166782792784946",
+      "lastPropertyId": "4:101952991982303791",
+      "name": "Wallet",
+      "properties": [
+        {
+          "id": "1:4801893674391837298",
+          "name": "id"
+        },
+        {
+          "id": "2:7415249286755503486",
+          "name": "name"
+        },
+        {
+          "id": "3:7133680240005405406",
+          "name": "balance"
+        },
+        {
+          "id": "4:101952991982303791",
+          "indexId": "4:8540010524720409631",
+          "name": "currencyId"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "4:3811166782792784946",
+  "lastIndexId": "4:8540010524720409631",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

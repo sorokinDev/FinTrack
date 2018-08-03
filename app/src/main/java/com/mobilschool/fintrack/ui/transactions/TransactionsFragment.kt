@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.data.entity.Transaction
 import com.mobilschool.fintrack.ui.base.BaseFragment
 import javax.inject.Inject
 

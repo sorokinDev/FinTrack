@@ -47,80 +47,6 @@ class BalanceFragment : BaseFragment(), BalanceView {
 
     private fun init(view: View) {
 
-        val fab = view.findViewById<FloatingActionButton>(R.id.fab)
-
-        fab.setOnClickListener {
-            getDialogTransaction().show()
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.findViewById<ScrollView>(R.id.scrollContainer).setOnScrollChangeListener { p0, scrollX, scrollY, oldScrollX, oldScrollY ->
-                if (scrollY > oldScrollY) {
-                    fab.hide()
-                } else {
-                    fab.show()
-                }
-            }
-        }
-
-        presenter.getBalance(FinTrackerApplication.BASE_CURRENCY)
-                .subscribe { t ->
-                    view.findViewById<TextView>(R.id.currentBalanceBaseCurrency).text = String.format("%.2f", t)
-                }
-
-        presenter.getBalance("usd")
-                .subscribe { t ->
-                    view.findViewById<TextView>(R.id.currentBalanceAnyCurrency).text = String.format("%.2f", t)
-                }
-
-        presenter.getBalance(FinTrackerApplication.BASE_CURRENCY).subscribe { balance ->
-
-            val random = Random()
-            val getRandomColor = { random.nextInt(256) }
-
-            val chart = view.findViewById<AnimatedPieView>(R.id.chart)
-            val config = AnimatedPieViewConfig()
-            config.startAngle(-90f)
-                    .strokeMode(false)
-                    .splitAngle(1f)
-                    .drawText(true)
-                    .textSize(35f)
-                    .duration(2000)
-
-            val table = view.findViewById<TableLayout>(R.id.table)
-
-
-            presenter.getSumWithoutIncomeOutcome().subscribe { sum ->
-
-                presenter.getBalanceByCategories()
-                        .forEach {
-                            val titleRow = TableRow(context)
-
-                            val categoryColumn = TextView(context)
-                            categoryColumn.setText(it.first)
-                            categoryColumn.gravity = Gravity.CENTER_HORIZONTAL
-                            titleRow.addView(categoryColumn)
-
-                            val amountColumn = TextView(context)
-                            amountColumn.setText(it.second.toString())
-                            amountColumn.gravity = Gravity.CENTER_HORIZONTAL
-                            titleRow.addView(amountColumn)
-
-                            val percentColumn = TextView(context)
-                            percentColumn.setText(String.format("%.2f", (it.second / sum) * 100))
-                            percentColumn.gravity = Gravity.CENTER_HORIZONTAL
-                            titleRow.addView(percentColumn)
-
-                            table.addView(titleRow)
-
-                            val pieInfo = SimplePieInfo(it.second / sum, Color.rgb(getRandomColor(), getRandomColor(), getRandomColor()), it.first)
-                            config.addData(pieInfo)
-                        }
-            }
-
-            chart.applyConfig(config)
-            chart.start()
-        }
     }
 
 
@@ -174,9 +100,8 @@ class BalanceFragment : BaseFragment(), BalanceView {
 
 
     companion object {
-        fun newInstance(/*, dialogPresenter: AddNewOperationContract.Presenter*/): BalanceFragment {
+        fun newInstance(): BalanceFragment {
             val fragment = BalanceFragment()
-            // fragment.operationDialogPresenter = dialogPresenter
             return fragment
         }
     }

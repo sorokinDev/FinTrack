@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.squareup.sqldelight'
+apply plugin: 'io.objectbox'
 
 /*def keystorePropertiesFile = rootProject.file("keystore.properties")
 
@@ -53,10 +53,10 @@ ext {
     moxy_version = "1.5.5"
     cicerone_version = "3.0.0"
     dagger_version = "2.16"
+    room_version = "2.0.0-beta01"
 }
 
 dependencies {
-
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -73,7 +73,11 @@ dependencies {
     implementation "com.arello-mobile:moxy:$moxy_version"
     kapt "com.arello-mobile:moxy-compiler:$moxy_version"
 
-    //
+    // Object box
+    implementation "io.objectbox:objectbox-android:$objectbox_version"
+    implementation "io.objectbox:objectbox-kotlin:$objectbox_version"
+
+    // Cicerone
     implementation "ru.terrakok.cicerone:cicerone:$cicerone_version"
 
     // Dagger
@@ -106,5 +110,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    testImplementation "androidx.room:room-testing:$room_version"
     implementation project(path: ':fincalc')
 }

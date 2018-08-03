@@ -1,8 +1,6 @@
 package com.mobilschool.fintrack.ui.transactions
 
 import com.mobilschool.fintrack.FinTrackerApplication
-import com.mobilschool.fintrack.data.entity.Repository
-import com.mobilschool.fintrack.data.entity.Transaction
 import com.mobilschool.fintrack.ui.base.BasePresenter
 import javax.inject.Inject
 
@@ -10,7 +8,7 @@ class TransactionsPresenter @Inject constructor(var repository: Repository?) : B
 
     fun getOperations(): List<Transaction> {
 
-        val account = FinTrackerApplication.mockAccounts.first { it.uniqueName == FinTrackerApplication.CURRENT_ACCOUNT }
+        val account = FinTrackerApplication.mockAccounts.first { it.accountName == FinTrackerApplication.CURRENT_ACCOUNT }
         return account.transactions
 
     }
