@@ -6,8 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'io.objectbox'
-
 /*def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 def keystoreProperties = new Properties()
@@ -73,9 +71,11 @@ dependencies {
     implementation "com.arello-mobile:moxy:$moxy_version"
     kapt "com.arello-mobile:moxy-compiler:$moxy_version"
 
-    // Object box
-    implementation "io.objectbox:objectbox-android:$objectbox_version"
-    implementation "io.objectbox:objectbox-kotlin:$objectbox_version"
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
 
     // Cicerone
     implementation "ru.terrakok.cicerone:cicerone:$cicerone_version"
@@ -101,6 +101,9 @@ dependencies {
 
     //AnimatedPieView
     implementation 'com.github.razerdp:AnimatedPieView:1.2.4'
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // TODO: remove dialogs library
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'

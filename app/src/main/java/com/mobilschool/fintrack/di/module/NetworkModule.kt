@@ -1,8 +1,6 @@
 package com.mobilschool.fintrack.di.module
 
-import com.google.gson.Gson
 import com.mobilschool.fintrack.data.source.remote.api.ExchangeRateApi
-import com.mobilschool.fintrack.data.source.remote.entity.ExchangeRate
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

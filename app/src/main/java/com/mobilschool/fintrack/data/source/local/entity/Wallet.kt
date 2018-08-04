@@ -1,14 +1,20 @@
 package com.mobilschool.fintrack.data.source.local.entity
 
-import io.objectbox.annotation.Entity
-import io.objectbox.annotation.Id
-import io.objectbox.relation.ToOne
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity
-class Wallet (
-        @Id var id: Long = 0,
+
+@Entity(tableName = "wallets")
+data class Wallet(
+
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name="id")
+        var id: Int = 0,
+
+        @ColumnInfo(name="name")
         var name: String,
-        var balance: Double
-){
-    lateinit var currency: ToOne<MoneyCurrency>
-}
+
+        @ColumnInfo(name="currency")
+        var currency:String
+)

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6456556268559513069",
-      "lastPropertyId": "2:994171962948254804",
+      "lastPropertyId": "3:67713171566259557",
       "name": "MoneyCurrency",
       "properties": [
         {
@@ -15,6 +15,10 @@
         {
           "id": "2:994171962948254804",
           "name": "code"
+        },
+        {
+          "id": "3:67713171566259557",
+          "name": "isFavorite"
         }
       ],
       "relations": []
@@ -98,10 +102,40 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:3073376667057078270",
+      "lastPropertyId": "5:4439776242278690277",
+      "name": "LocalExchangeRate",
+      "properties": [
+        {
+          "id": "1:1010579154708800582",
+          "name": "rate"
+        },
+        {
+          "id": "2:8731015855938612430",
+          "indexId": "5:7244738176051915133",
+          "name": "fromCurrencyId"
+        },
+        {
+          "id": "3:1861190535925930481",
+          "indexId": "6:1687237714164093673",
+          "name": "toCurrencyId"
+        },
+        {
+          "id": "4:4874761410611594534",
+          "name": "id"
+        },
+        {
+          "id": "5:4439776242278690277",
+          "name": "date"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:3811166782792784946",
-  "lastIndexId": "4:8540010524720409631",
+  "lastEntityId": "5:3073376667057078270",
+  "lastIndexId": "6:1687237714164093673",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
