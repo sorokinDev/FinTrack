@@ -2,6 +2,7 @@ package com.mobilschool.fintrack.di.module
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.mobilschool.fintrack.data.source.local.db.FinTrackDB
 import com.mobilschool.fintrack.data.source.local.entity.*
 import dagger.Module

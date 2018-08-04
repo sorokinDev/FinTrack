@@ -44,7 +44,7 @@ class CurrencyRepository @Inject constructor(
             exchangeDao.insertOrUpdate(localUnsaved)
         }.doOnError {error ->
             Timber.e(error)
-            throw Exceptions.propagate(error)
+            // throw Exceptions.propagate(error)
         }.filter { false }
 
         return Flowable.mergeDelayError(local, remote)

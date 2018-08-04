@@ -5,8 +5,8 @@
     <item
         android:id="@+id/cash_accounts"
         android:icon="@drawable/ic_bills"
-        android:title="Счета"
-        app:showAsAction="ifRoom|ifRoom" />
+        android:title="@string/accounts"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/settings"
         android:title="@string/settings" />

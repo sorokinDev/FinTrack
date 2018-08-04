@@ -8,7 +8,6 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(): BasePresenter<MainView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.showMsg("Hello")
     }
 
 }

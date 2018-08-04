@@ -10,9 +10,10 @@ import com.mobilschool.fintrack.data.source.local.dao.ExchangeDao
 import com.mobilschool.fintrack.data.source.local.dao.WalletDao
 import com.mobilschool.fintrack.data.source.local.entity.LocalExchangeRate
 import com.mobilschool.fintrack.data.source.local.entity.MoneyCurrency
+import com.mobilschool.fintrack.data.source.local.entity.Wallet
 
 
-@Database(entities = [(MoneyCurrency::class), (LocalExchangeRate::class)], version = 1)
+@Database(entities = [(MoneyCurrency::class), (LocalExchangeRate::class), (Wallet::class)], version = 1)
 @TypeConverters(CurrencyPairConverter::class, DateConverter::class)
 abstract class FinTrackDB : RoomDatabase() {
 
