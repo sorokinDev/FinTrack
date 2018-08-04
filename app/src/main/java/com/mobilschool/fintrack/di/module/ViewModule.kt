@@ -1,8 +1,8 @@
 package com.mobilschool.fintrack.di.module
 
-import com.mobilschool.fintrack.ui.balance.BalanceFragment
+import com.mobilschool.fintrack.ui.home.HomeFragment
 import com.mobilschool.fintrack.ui.main.MainActivity
-import com.mobilschool.fintrack.ui.transactions.TransactionsFragment
+import com.mobilschool.fintrack.ui.transaction.add.TransactionAddFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,9 +13,9 @@ abstract class ViewModule {
     abstract fun mainActivity(): MainActivity
 
     @ContributesAndroidInjector
-    abstract fun balanceFragment(): BalanceFragment
+    abstract fun homeFragment(): HomeFragment
 
     @ContributesAndroidInjector
-    abstract fun transactionsFragment(): TransactionsFragment
+    abstract fun transactionAddFragment(): TransactionAddFragment
 
 }

@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.ui
+package com.mobilschool.fintrack.ui.about
 
 import android.app.Dialog
 import android.os.Bundle

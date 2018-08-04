@@ -6,11 +6,9 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BasePresenter<T: BaseView>: MvpPresenter<T>() {
 
-    protected lateinit var compositeDisposable: CompositeDisposable
 
     override fun onDestroy() {
         super.onDestroy()
-        compositeDisposable.dispose()
     }
     
 }

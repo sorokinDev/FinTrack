@@ -6,8 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-apply plugin: 'com.squareup.sqldelight'
-
 /*def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 def keystoreProperties = new Properties()
@@ -32,6 +30,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
     buildTypes {
         debug{
@@ -53,10 +56,11 @@ ext {
     moxy_version = "1.5.5"
     cicerone_version = "3.0.0"
     dagger_version = "2.16"
+    room_version = "2.0.0-beta01"
+    nav_version = "1.0.0-alpha04"
 }
 
 dependencies {
-
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -73,8 +77,14 @@ dependencies {
     implementation "com.arello-mobile:moxy:$moxy_version"
     kapt "com.arello-mobile:moxy-compiler:$moxy_version"
 
-    //
-    implementation "ru.terrakok.cicerone:cicerone:$cicerone_version"
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
@@ -98,6 +108,9 @@ dependencies {
     //AnimatedPieView
     implementation 'com.github.razerdp:AnimatedPieView:1.2.4'
 
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
     // TODO: remove dialogs library
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
@@ -106,5 +119,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    testImplementation "androidx.room:room-testing:$room_version"
     implementation project(path: ':fincalc')
 }
