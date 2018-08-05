@@ -32,6 +32,7 @@ fun Date.diff(date1: Date): Long{
 
 
 typealias CurrencyPair = Pair<String, String>
+typealias CurrencyAmountPair = Pair<String, Double>
 
 fun Context.isNetworkStatusAvailable(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager

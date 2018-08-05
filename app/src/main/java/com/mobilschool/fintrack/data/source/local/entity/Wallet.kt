@@ -16,5 +16,8 @@ data class Wallet(
         var name: String,
 
         @ColumnInfo(name="currency")
-        var currency:String
+        var currency: String,
+
+        @ColumnInfo(name="balance")
+        var balance: Double
 )

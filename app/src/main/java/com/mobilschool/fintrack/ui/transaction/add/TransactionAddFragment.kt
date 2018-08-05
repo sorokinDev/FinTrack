@@ -28,7 +28,7 @@ class TransactionAddFragment : BaseFragment(), TransactionAddView {
     }
 
     fun initView(){
-        appbar.replaceMenu(R.menu.main_menu)
+        appbar.replaceMenu(R.menu.home_menu)
 
     }
 

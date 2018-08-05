@@ -3,6 +3,7 @@ package com.mobilschool.fintrack.di.module
 import android.app.Application
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mobilschool.fintrack.data.source.local.db.FinTrackDB
 import com.mobilschool.fintrack.data.source.local.entity.*
 import dagger.Module
@@ -14,8 +15,7 @@ class DBModule {
 
     @Provides
     @Singleton
-    fun provideDB(app: Application): FinTrackDB =
-            Room.databaseBuilder(app, FinTrackDB::class.java, "fintrack_db").build()
+    fun provideDB(app: Application): FinTrackDB = FinTrackDB.getInstance(app)
 
     @Provides
     @Singleton

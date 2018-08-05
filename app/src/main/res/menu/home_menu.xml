@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/cash_accounts"
-        android:icon="@drawable/ic_bills"
-        android:title="@string/accounts"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/spinner_wallets"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner"
+        android:title="@string/accounts" />
     <item
         android:id="@+id/settings"
         android:title="@string/settings" />
