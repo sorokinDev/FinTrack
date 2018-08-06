@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".FinTrackerApplication">
-        <activity android:name="com.mobilschool.fintrack.ui.main.MainActivity">
+        <activity android:name="com.mobilschool.fintrack.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,13 +25,6 @@
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="com.mobilschool.fintrack.ui.main.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobilschool.fintrack.ui.main.MainActivity" />
-        </activity>
-        <activity android:name="com.mobilschool.fintrack.ui.bills.BillsActivity"
-            android:parentActivityName="com.mobilschool.fintrack.ui.main.MainActivity"
-            android:label="@string/title_bills_activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mobilschool.fintrack.ui.main.MainActivity" />

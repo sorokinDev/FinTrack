@@ -1,9 +1,5 @@
 <resources>
 
-    <string-array name="titles_tabs">
-        <item>Главная</item>
-        <item>Операции</item>
-    </string-array>
 
     <string name="amount">Amount</string>
     <string name="category">Category</string>
@@ -119,10 +115,34 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="description_app">Описание: \n Приложение для управления личными финансами \n Разработчик: Зеленин Р.А. \n ШМР Яндекс \n 2018</string>
+    <string name="description_app">Описание: \n Приложение для управления личными финансами \n Разработчик: Зеленин Р.А., Сорокин В. А. \n ШМР Яндекс \n 2018</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="accounts">Accounts</string>
+    <string name="expense">Expense</string>
+    <string name="add_transaction">New transaction</string>
+    <string name="hint_sum">Sum</string>
+    <string name="error_invalid_number">Invalid sum</string>
+    <string name="no_transactions_yet">Click button at the bottom to add transaction</string>
+    <string name="cash">Cash</string>
+    <string name="card">Card</string>
+    <string name="bank_account">Bank account</string>
+    <string name="error_select_category">Please select category</string>
+    <string name="job">Job</string>
+    <string name="freelance">Freelance</string>
+    <string name="tutoring">Tutoring</string>
+    <string name="shopping">Shopping</string>
+    <string name="medicine">Medicine</string>
+    <string name="car" >Car</string>
+    <string name="house">House</string>
+    <string name="hobby">Hobby</string>
+    <string name="clothes">Clothes</string>
+    <string name="debt_return">Debt return</string>
+    <string name="is_periodic">Is periodic?</string>
+    <string name="hint_period">Period (in days)</string>
+    <string name="transaction_added">Transaction added!</string>
+    <string name="error_invalid_period">Invalid number of days</string>
+    <string name="periodic_transaction_added">Periodic transaction added!</string>
 
 </resources>

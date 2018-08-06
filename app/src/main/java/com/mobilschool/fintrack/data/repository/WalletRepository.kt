@@ -1,18 +1,25 @@
 package com.mobilschool.fintrack.data.repository
 
+import androidx.lifecycle.LiveData
 import com.mobilschool.fintrack.data.source.local.dao.WalletDao
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
-import io.reactivex.Flowable
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class WalletRepository @Inject constructor(val walletDao: WalletDao) {
 
-    fun getAllWallets(): Flowable<List<Wallet>>{
+    fun getAllWallets(): LiveData<List<Wallet>>{
         return walletDao.getAllWallets()
     }
 
-    fun getWalletById(walletId: Int): Flowable<Wallet>{
+    fun getWalletById(walletId: Int): LiveData<Wallet>{
         return walletDao.getWalletById(walletId)
+    }
+
+    fun changeBalance(walletId: Int, amount: Double){
+        launch {
+            walletDao.changeBalance(walletId, amount)
+        }
     }
 
 }
