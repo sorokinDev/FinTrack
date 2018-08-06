@@ -1,16 +1,20 @@
 package com.mobilschool.fintrack.ui.home
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobilschool.fintrack.R
+import com.mobilschool.fintrack.ui.about.AboutDialogFragment
 import com.mobilschool.fintrack.ui.base.BaseFragment
 import com.mobilschool.fintrack.ui.home.adapter.BalanceAdapter
 import com.mobilschool.fintrack.ui.home.adapter.TransactionAdapter
 import com.mobilschool.fintrack.ui.home.adapter.WalletAdapter
+import com.mobilschool.fintrack.ui.settings.SettingsActivity
 import com.mobilschool.fintrack.util.observe
 import com.mobilschool.fintrack.util.toMoneyString
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -30,10 +34,25 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         initObservers()
+        if(savedInstanceState == null){
+            viewModel.executePendingTransactions()
+        }
     }
 
     fun initViews(){
         appbar.replaceMenu(R.menu.home_menu)
+        appbar.setOnMenuItemClickListener(){
+            when (it.itemId) {
+                R.id.about -> {
+                    val aboutDialog = AboutDialogFragment()
+                    aboutDialog.show(activity?.supportFragmentManager, "about_dialog")
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
 
         initSpinnerWallets()
         initRvBalances()
@@ -58,7 +77,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, p3: Long) {
-                Timber.i("Hello")
                 if(position >= 0 && walletsAdapter.data.size > position){
                     viewModel.setSelectedWalletId(walletsAdapter.data[position].id)
                 }
@@ -117,8 +135,11 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
                 transactionsAdapter.setData(viewModel.getSelectedWallet().value!!, it)
             }
         })
-
     }
+
+
+
+
 
     override fun getLayoutRes(): Int = R.layout.fragment_home
     override fun provideViewModel(): HomeViewModel = getViewModel(viewModelFactory)

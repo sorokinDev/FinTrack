@@ -42,4 +42,8 @@ class HomeViewModel @Inject constructor(
     fun getBalanceInFavoriteCurrencies() = balanceInFavoriteCurrencies
 
     fun getTransactions() = transactions
+
+    fun executePendingTransactions(){
+        walletInteractor.executePendingTransactions()
+    }
 }

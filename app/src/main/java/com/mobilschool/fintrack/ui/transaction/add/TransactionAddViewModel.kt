@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mobilschool.fintrack.data.interactor.WalletInteractor
-import com.mobilschool.fintrack.data.source.local.entity.MoneyTransaction
-import com.mobilschool.fintrack.data.source.local.entity.TransactionCategory
-import com.mobilschool.fintrack.data.source.local.entity.TransactionType
-import com.mobilschool.fintrack.data.source.local.entity.Wallet
+import com.mobilschool.fintrack.data.source.local.entity.*
 import com.mobilschool.fintrack.ui.base.BaseViewModel
+import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TransactionAddViewModel @Inject constructor(val walletInteractor: WalletInteractor): BaseViewModel() {
@@ -23,6 +22,8 @@ class TransactionAddViewModel @Inject constructor(val walletInteractor: WalletIn
     }
 
     private var selectedCategoryId = MutableLiveData<Int>()
+
+    private val isPeriodic = MutableLiveData<Boolean>().apply { value = false }
 
     fun setWalletId(id: Int){
         walletId.value = id
@@ -53,7 +54,24 @@ class TransactionAddViewModel @Inject constructor(val walletInteractor: WalletIn
         return selectedCategoryId
     }
     fun setSelectedCategoryId(id: Int) {
+        Timber.i("CATEGORY " + id.toString())
         selectedCategoryId.value = id
+    }
+
+    fun setPeriodic(checked: Boolean) {
+        isPeriodic.value = checked
+    }
+
+    fun getIsPeriodic() = isPeriodic
+
+    fun addPeriodicTransaction(amount: Double, period: Int) {
+        addTransaction(amount)
+        walletInteractor.addPeriodicTransaction(
+                PeriodicTransaction(
+                        0, walletId.value!!, amount, Date(),
+                        TimeUnit.DAYS.toMillis(period.toLong()), transactionType.value!!, selectedCategoryId.value!!
+                )
+        )
     }
 
 }

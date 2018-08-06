@@ -36,4 +36,9 @@ class DBModule {
     @Provides
     @Singleton
     fun provideCategoryDao(db: FinTrackDB) = db.categoryDao()
+
+    @Provides
+    @Singleton
+    fun providePeriodicTransactionDao(db: FinTrackDB) = db.periodicTransactionDao()
+
 }

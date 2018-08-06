@@ -8,6 +8,7 @@
         app:actionViewClass="androidx.appcompat.widget.AppCompatSpinner"
         android:title="@string/accounts" />
     <item
+        android:visible="false"
         android:id="@+id/settings"
         android:title="@string/settings" />
     <item

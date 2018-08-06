@@ -112,7 +112,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="9dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_transaction_currency"
@@ -139,6 +139,48 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/til_sum"
                 tools:text="CUR" />
+
+            <TextView
+                android:id="@+id/tv_hint_is_periodic"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="@string/is_periodic"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/switch_periodic" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_periodic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_hint_is_periodic"
+                app:layout_constraintTop_toBottomOf="@+id/til_sum" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_period"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_hint_is_periodic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/switch_periodic"
+                app:layout_constraintTop_toTopOf="@+id/tv_hint_is_periodic">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_period"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_period"
+                    android:inputType="number"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

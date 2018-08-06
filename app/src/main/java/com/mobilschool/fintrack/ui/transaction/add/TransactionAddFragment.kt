@@ -85,6 +85,7 @@ class TransactionAddFragment : BaseFragment<TransactionAddViewModel>() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, p3: Long) {
+                Timber.i("IN ON SELECTED " + position)
                 if(position >= 0 && categoriesAdapter.data.size > position){
                     viewModel.setSelectedCategoryId(categoriesAdapter.data[position].id)
                 }
@@ -92,25 +93,46 @@ class TransactionAddFragment : BaseFragment<TransactionAddViewModel>() {
 
         }
 
+        switch_periodic.setOnCheckedChangeListener { btn, checked ->
+            if(checked){
+                viewModel.setPeriodic(checked)
+
+            }
+        }
+
         fab_confirm.setOnClickListener {
+            // TODO move this condition to ViewModel
             val amount = et_sum.text.toString().toDoubleOrNull() ?: -100.0
             if(amount <= 0){
                 til_sum.error = getString(R.string.error_invalid_number)
                 Toast.makeText(requireActivity(), R.string.error_invalid_number, Toast.LENGTH_SHORT).show()
                 et_sum.addTextChangedListener(sumTextWatcher)
             }else{
-                // TODO move this condition to ViewModel
+                val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(this@TransactionAddFragment.view?.windowToken, 0)
                 Timber.i(viewModel.getSelectedCategoryId().value?.toString() ?: "NULL")
                 if(viewModel.getSelectedCategoryId().value == null || viewModel.getSelectedCategoryId().value!! < 0){
                     Toast.makeText(requireContext(), R.string.error_select_category, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(this@TransactionAddFragment.view?.windowToken, 0)
-                Toast.makeText(requireActivity(), "Transaction added", Toast.LENGTH_SHORT).show()
-                viewModel.addTransaction(amount)
+                if(viewModel.getIsPeriodic().value!!){
+                    val period = et_period.text.toString().toIntOrNull() ?: -100
+                    if(period <= 0){
+                        til_period.error = getString(R.string.error_invalid_period)
+                        Toast.makeText(requireActivity(), R.string.error_invalid_period, Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }else{
+                        Toast.makeText(requireActivity(), R.string.periodic_transaction_added, Toast.LENGTH_SHORT).show()
+                        viewModel.addPeriodicTransaction(amount, period)
+                    }
+                }else {
+                    Toast.makeText(requireActivity(), R.string.transaction_added, Toast.LENGTH_SHORT).show()
+                    viewModel.addTransaction(amount)
+                }
+
                 val navDir = TransactionAddFragmentDirections.actionTransactionAddFragmentToHomeFragment()
                 Navigation.findNavController(it).navigate(navDir)
+
             }
         }
     }
@@ -131,6 +153,14 @@ class TransactionAddFragment : BaseFragment<TransactionAddViewModel>() {
         viewModel.getCategories().observe(this, {
             categoriesAdapter.data = it
             spinner_categories.setSelection(0)
+            viewModel.setSelectedCategoryId(categoriesAdapter.data[0].id)
+        })
+
+        viewModel.getIsPeriodic().observe(this, {
+            if(switch_periodic.isChecked != it){
+                switch_periodic.isChecked = it
+            }
+            til_period.visibility = if(it) View.VISIBLE else View.INVISIBLE
         })
 
     }

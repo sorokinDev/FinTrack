@@ -22,7 +22,7 @@ fun ioThread(f: () -> Unit){
 }
 
 @Database(entities = [(MoneyCurrency::class), (LocalExchangeRate::class), (Wallet::class), (MoneyTransaction::class),
-                        (TransactionCategory::class)], version = 1)
+                        (TransactionCategory::class), (PeriodicTransaction::class)], version = 1)
 @TypeConverters(CurrencyPairConverter::class, DateConverter::class, TransactionTypeConverter::class, WalletTypeConverter::class)
 abstract class FinTrackDB : RoomDatabase() {
 
@@ -89,5 +89,6 @@ abstract class FinTrackDB : RoomDatabase() {
     abstract fun walletDao(): WalletDao
     abstract fun transactionDao(): TransactionDao
     abstract fun categoryDao(): CategoryDao
+    abstract fun periodicTransactionDao(): PeriodicTransactionDao
 
 }

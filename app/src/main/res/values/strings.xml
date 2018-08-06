@@ -139,5 +139,10 @@
     <string name="hobby">Hobby</string>
     <string name="clothes">Clothes</string>
     <string name="debt_return">Debt return</string>
+    <string name="is_periodic">Is periodic?</string>
+    <string name="hint_period">Period (in days)</string>
+    <string name="transaction_added">Transaction added!</string>
+    <string name="error_invalid_period">Invalid number of days</string>
+    <string name="periodic_transaction_added">Periodic transaction added!</string>
 
 </resources>
