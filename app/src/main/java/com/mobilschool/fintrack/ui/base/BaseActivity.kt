@@ -1,67 +1,32 @@
 package com.mobilschool.fintrack.ui.base
 
+import android.annotation.SuppressLint
 import dagger.android.support.DaggerAppCompatActivity
-import com.arellomobile.mvp.MvpDelegate
 import android.os.Bundle
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
-import com.mobilschool.fintrack.ui.main.MainPresenter
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.mobilschool.fintrack.di.factory.ViewModelFactory
 import javax.inject.Inject
 
 
-open class BaseActivity: DaggerAppCompatActivity() {
-    private var mMvpDelegate: MvpDelegate<out BaseActivity>? = null
+@SuppressLint("Registered")
+abstract class BaseActivity<T: ViewModel>: DaggerAppCompatActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        getMvpDelegate().onCreate(savedInstanceState)
+        viewModel = provideViewModel()
     }
 
-    override fun onStart() {
-        super.onStart()
+    lateinit var viewModel: T
 
-        getMvpDelegate().onAttach()
-    }
+    inline fun <reified T : ViewModel> getViewModel(
+            viewModelFactory: ViewModelProvider.Factory
+    ): T = ViewModelProviders.of(this, viewModelFactory)[T::class.java]
 
-    override fun onResume() {
-        super.onResume()
 
-        getMvpDelegate().onAttach()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        getMvpDelegate().onSaveInstanceState(outState)
-        getMvpDelegate().onDetach()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        getMvpDelegate().onDetach()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        getMvpDelegate().onDestroyView()
-
-        if (isFinishing) {
-            getMvpDelegate().onDestroy()
-        }
-    }
-
-    /**
-     * @return The [MvpDelegate] being used by this Activity.
-     */
-    fun getMvpDelegate(): MvpDelegate<*> {
-        if (mMvpDelegate == null) {
-            mMvpDelegate = MvpDelegate<BaseActivity>(this)
-        }
-        return mMvpDelegate as MvpDelegate<*>
-    }
-
+    abstract fun provideViewModel(): T
 }

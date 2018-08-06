@@ -2,29 +2,17 @@ package com.mobilschool.fintrack.util
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.mobilschool.fincalc.Record
-import com.mobilschool.fincalc.entity.currency.Currency
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import com.mobilschool.fincalc.entity.currency.RUB
 import com.mobilschool.fincalc.entity.currency.USD
+import timber.log.Timber
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
-object Utils {
-    fun formatDate(date: Date): String =
-            SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT).format(date)
-    
-
-
-    fun convertToCurrency(name: String, amount: Double): Currency {
-        return when (name) {
-            "USD" -> USD(amount)
-            "RUB" -> RUB(amount)
-            else -> {
-                throw NotImplementedError()
-            }
-        }
-    }
-}
 
 fun Date.diff(date1: Date): Long{
     return this.time - date1.time
@@ -32,6 +20,7 @@ fun Date.diff(date1: Date): Long{
 
 
 typealias CurrencyPair = Pair<String, String>
+typealias CurrencyAmountPair = Pair<String, Double>
 
 fun Context.isNetworkStatusAvailable(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
@@ -42,3 +31,20 @@ fun Context.isNetworkStatusAvailable(): Boolean {
     }
     return false
 }
+
+
+fun <T> LiveData<T>.observe(owner: LifecycleOwner, notNull: (data : T) -> Unit,
+                            isNull: () -> Unit = { Timber.d("Observer: Live data is null") }){
+    this.observe(owner, androidx.lifecycle.Observer {
+        if(it != null){
+            notNull(it)
+        }else{
+            isNull()
+        }
+    })
+}
+
+
+fun Double.toMoney() = ((this * 100).roundToLong() / 100.0)
+
+fun Double.toMoneyString() = DecimalFormat("#,###").format(this.roundToLong()).replace(',', ' ')

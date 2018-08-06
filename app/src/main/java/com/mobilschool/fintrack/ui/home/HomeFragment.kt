@@ -2,99 +2,125 @@ package com.mobilschool.fintrack.ui.home
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
+import android.widget.*
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.PresenterType
-import com.arellomobile.mvp.presenter.ProvidePresenter
-
 import com.mobilschool.fintrack.R
 import com.mobilschool.fintrack.ui.base.BaseFragment
-import com.mobilschool.fintrack.ui.helper.WrapLinearLayoutManager
-import com.mobilschool.fintrack.ui.main.MainPresenter
+import com.mobilschool.fintrack.ui.home.adapter.BalanceAdapter
+import com.mobilschool.fintrack.ui.home.adapter.TransactionAdapter
+import com.mobilschool.fintrack.ui.home.adapter.WalletAdapter
+import com.mobilschool.fintrack.util.observe
+import com.mobilschool.fintrack.util.toMoneyString
 import kotlinx.android.synthetic.main.fragment_home.*
-import javax.inject.Inject
-import androidx.core.view.ViewCompat.setNestedScrollingEnabled
+import timber.log.Timber
 
 
+class HomeFragment : BaseFragment<HomeViewModel>() {
 
-class HomeFragment : BaseFragment(), HomeView {
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: HomePresenter
+    lateinit var balanceInCurrenciesAdapter: BalanceAdapter
 
-    @ProvidePresenter
-    fun providePresenter() = presenter
+    lateinit var spinner_wallets: Spinner
+    lateinit var walletsAdapter: WalletAdapter
 
-    val balancesAdapter = BalancesAdapter()
+    lateinit var transactionsAdapter: TransactionAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initViews()
+        initObservers()
     }
 
-    fun initView(){
-        appbar.replaceMenu(R.menu.main_menu)
-        fab.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_transactionAddFragment))
+    fun initViews(){
+        appbar.replaceMenu(R.menu.home_menu)
 
+        initSpinnerWallets()
+        initRvBalances()
+        initRvTransactions()
+
+        fab_add.setOnClickListener {
+            if(viewModel.getSelectedWalletId().value != null && viewModel.getSelectedWalletId().value!! > 0) {
+                val navDir = HomeFragmentDirections.actionHomeFragmentToTransactionAddFragment(viewModel.getSelectedWalletId().value!!)
+                Navigation.findNavController(it).navigate(navDir)
+            }
+        }
+    }
+
+    private fun initSpinnerWallets() {
+        spinner_wallets = appbar.menu.findItem(R.id.spinner_wallets).actionView as Spinner
+        walletsAdapter = WalletAdapter(requireContext())
+        spinner_wallets.adapter = walletsAdapter
+        spinner_wallets.setPopupBackgroundResource(android.R.color.white)
+        spinner_wallets.setBackgroundResource(android.R.color.transparent)
+
+        spinner_wallets.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, p3: Long) {
+                Timber.i("Hello")
+                if(position >= 0 && walletsAdapter.data.size > position){
+                    viewModel.setSelectedWalletId(walletsAdapter.data[position].id)
+                }
+            }
+
+        }
+    }
+
+    private fun initRvBalances() {
+        balanceInCurrenciesAdapter = BalanceAdapter()
         rv_balances.isNestedScrollingEnabled = false
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         rv_balances.layoutManager = layoutManager
-
-        rv_balances.adapter = balancesAdapter
-        balancesAdapter.setData(arrayOf(Pair("RUB", "10.000"), Pair("USD", "5.000")))
+        rv_balances.adapter = balanceInCurrenciesAdapter
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    private fun initRvTransactions() {
+        transactionsAdapter = TransactionAdapter()
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rv_transactions.layoutManager = layoutManager
+        rv_transactions.adapter = transactionsAdapter
     }
 
+    private fun initObservers() {
+        viewModel.getWallets().observe(this, {
+            walletsAdapter.data = it
+        })
 
-    class BalancesAdapter: RecyclerView.Adapter<BalancesAdapter.ViewHolder>() {
-
-        var items = arrayOf<Pair<String, String>>()
-
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val tvCurrency: TextView
-            val tvBalance: TextView
-
-            init {
-                tvCurrency = itemView.findViewById(R.id.tv_currency)
-                tvBalance = itemView.findViewById(R.id.tv_balance)
+        viewModel.getSelectedWalletId().observe(this, {
+            val pos = walletsAdapter.getPositionByWalletId(it)
+            if(pos != spinner_wallets.selectedItemPosition) {
+                spinner_wallets.setSelection(pos)
             }
+        })
 
-            fun bind(balances: Pair<String, String>){
-                tvCurrency.text = balances.first
-                tvBalance.text = balances.second
+        viewModel.getSelectedWallet().observe(this, {
+            tv_current_wallet.text = it.name
+            tv_balance_in_main_currency.text = it.balance.toMoneyString()
+            tv_main_currency.text = it.currency
+            balanceInCurrenciesAdapter.wallet = it
+        })
+
+        viewModel.getBalanceInFavoriteCurrencies().observe(this, {
+            if(it != null){
+                balanceInCurrenciesAdapter.setData(it)
             }
-        }
+        })
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_balance_with_currency, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(items[position])
-        }
-
-        override fun getItemCount(): Int = items.size
-
-        fun setData(data: Array<Pair<String, String>>){
-            items = data
-            notifyDataSetChanged()
-        }
+        viewModel.getTransactions().observe(this, {
+            if(it.isEmpty()){
+                layout_no_transactions.visibility = View.VISIBLE
+                rv_transactions.visibility = View.GONE
+            }else{
+                layout_no_transactions.visibility = View.GONE
+                rv_transactions.visibility = View.VISIBLE
+                transactionsAdapter.setData(viewModel.getSelectedWallet().value!!, it)
+            }
+        })
 
     }
 
+    override fun getLayoutRes(): Int = R.layout.fragment_home
+    override fun provideViewModel(): HomeViewModel = getViewModel(viewModelFactory)
 
 }
