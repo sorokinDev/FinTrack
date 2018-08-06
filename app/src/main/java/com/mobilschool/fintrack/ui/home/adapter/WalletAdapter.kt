@@ -14,6 +14,15 @@ import com.mobilschool.fintrack.data.source.local.entity.Wallet
 class WalletAdapter(context: Context?)
     : ArrayAdapter<Wallet>(context, R.layout.item_wallet_small) {
 
+    var data: List<Wallet> = listOf<Wallet>()
+            get
+            set(value) {
+                field = value
+                clear()
+                addAll(value)
+                notifyDataSetChanged()
+            }
+
     init {
         setDropDownViewResource(R.layout.item_wallet_dropdown)
     }
@@ -30,6 +39,11 @@ class WalletAdapter(context: Context?)
         view.findViewById<TextView>(R.id.tv_wallet_name).text = getItem(position).name
         return view
     }
+
+    fun getPositionByWalletId(id: Int): Int {
+        return data.indexOfFirst { it.id == id }
+    }
+
 
 
 

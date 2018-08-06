@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mobilschool.fintrack.R
+import com.mobilschool.fintrack.data.source.local.entity.Wallet
+import com.mobilschool.fintrack.util.CurrencyAmountPair
+import com.mobilschool.fintrack.util.toMoney
+import com.mobilschool.fintrack.util.toMoneyString
 
 class BalanceAdapter: RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
-
-    var items = arrayOf<Pair<String, String>>()
+    var wallet: Wallet? = null
+    var items = listOf<CurrencyAmountPair>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvCurrency: TextView
@@ -20,9 +24,15 @@ class BalanceAdapter: RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
             tvBalance = itemView.findViewById(R.id.tv_balance)
         }
 
-        fun bind(balances: Pair<String, String>){
-            tvCurrency.text = balances.first
-            tvBalance.text = balances.second
+        fun bind(walletBalance: Double, balance: CurrencyAmountPair){
+            tvCurrency.text = balance.first
+            val balanceAsMoney = balance.second.toMoney()
+            if(balanceAsMoney != 0.0 || walletBalance == 0.0){
+                tvBalance.text = balanceAsMoney.toMoneyString()
+            }else{
+                tvBalance.text = "---"
+            }
+
         }
     }
 
@@ -33,12 +43,12 @@ class BalanceAdapter: RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(wallet?.balance ?: 0.0, items[position])
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun setData(data: Array<Pair<String, String>>){
+    fun setData(data: List<CurrencyAmountPair>){
         items = data
         notifyDataSetChanged()
     }

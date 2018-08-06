@@ -6,14 +6,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scroll_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="false"
+        android:paddingBottom="120dp"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ADD"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/caption_add_transaction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/add_transaction"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_wallet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/caption_add_transaction"
+                tools:text="Account" />
+
+            <RadioGroup
+                android:id="@+id/rg_transaction_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/rg_transaction_type_background"
+                android:orientation="horizontal"
+                android:padding="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_wallet">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rb_expense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/rb_transaction_type_bg"
+                    android:button="@null"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/expense"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rb_income"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/rb_transaction_type_bg"
+                    android:button="@null"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/income"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_categories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rg_transaction_type">
+
+            </androidx.appcompat.widget.AppCompatSpinner>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_sum"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_transaction_currency"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinner_categories">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_sum"
+                    android:inputType="number"
+                    android:textSize="20sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_transaction_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/til_sum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/til_sum"
+                tools:text="CUR" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/appbar"
@@ -22,10 +151,12 @@
         android:layout_gravity="bottom"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"/>
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_confirm"
         android:src="@drawable/ic_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -2,10 +2,7 @@ package com.mobilschool.fintrack.di.component
 
 import android.app.Application
 import com.mobilschool.fintrack.FinTrackerApplication
-import com.mobilschool.fintrack.di.module.AppModule
-import com.mobilschool.fintrack.di.module.DBModule
-import com.mobilschool.fintrack.di.module.NetworkModule
-import com.mobilschool.fintrack.di.module.ViewModule
+import com.mobilschool.fintrack.di.module.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -19,7 +16,8 @@ import javax.inject.Singleton
             AppModule::class,
             NetworkModule::class,
             DBModule::class,
-            ViewModule::class
+            ViewModule::class,
+            ViewModelModule::class
         ]
 )
 interface AppComponent: AndroidInjector<FinTrackerApplication> {

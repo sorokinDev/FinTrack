@@ -28,4 +28,8 @@ class DBModule {
     @Provides
     @Singleton
     fun provideWalletDao(db: FinTrackDB) = db.walletDao()
+
+    @Provides
+    @Singleton
+    fun provideTransactionDao(db: FinTrackDB) = db.transactionDao()
 }

@@ -1,96 +1,39 @@
 package com.mobilschool.fintrack.ui.base
 
-import dagger.android.support.DaggerFragment
-import com.arellomobile.mvp.MvpDelegate
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.mobilschool.fintrack.di.factory.ViewModelFactory
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
+abstract class BaseFragment<T: BaseViewModel>: DaggerFragment() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModel: T
 
-open class BaseFragment: DaggerFragment() {
-    private var mIsStateSaved: Boolean = false
-    private var mMvpDelegate: MvpDelegate<out BaseFragment>? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        getMvpDelegate().onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(getLayoutRes(), container, false)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        mIsStateSaved = false
-
-        getMvpDelegate().onAttach()
+        viewModel = provideViewModel()
     }
 
-    override fun onResume() {
-        super.onResume()
+    @LayoutRes
+    abstract fun getLayoutRes(): Int
 
-        mIsStateSaved = false
+    abstract fun provideViewModel(): T
 
-        getMvpDelegate().onAttach()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        mIsStateSaved = true
-
-        getMvpDelegate().onSaveInstanceState(outState)
-        getMvpDelegate().onDetach()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        getMvpDelegate().onDetach()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        getMvpDelegate().onDetach()
-        getMvpDelegate().onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        //We leave the screen and respectively all fragments will be destroyed
-        if (activity!!.isFinishing) {
-            getMvpDelegate().onDestroy()
-            return
-        }
-
-        // When we rotate device isRemoving() return true for fragment placed in backstack
-        // http://stackoverflow.com/questions/34649126/fragment-back-stack-and-isremoving
-        if (mIsStateSaved) {
-            mIsStateSaved = false
-            return
-        }
-
-        // See https://github.com/Arello-Mobile/Moxy/issues/24
-        var anyParentIsRemoving = false
-        var parent = parentFragment
-        while (!anyParentIsRemoving && parent != null) {
-            anyParentIsRemoving = parent.isRemoving
-            parent = parent.parentFragment
-        }
-
-        if (isRemoving || anyParentIsRemoving) {
-            getMvpDelegate().onDestroy()
-        }
-    }
-
-    /**
-     * @return The [MvpDelegate] being used by this Fragment.
-     */
-    fun getMvpDelegate(): MvpDelegate<*> {
-        if (mMvpDelegate == null) {
-            mMvpDelegate = MvpDelegate<BaseFragment>(this)
-        }
-
-        return mMvpDelegate as MvpDelegate<*>
-    }
+    inline fun <reified T : ViewModel> getViewModel(
+            viewModelFactory: ViewModelProvider.Factory
+    ): T = ViewModelProviders.of(this, viewModelFactory)[T::class.java]
 }

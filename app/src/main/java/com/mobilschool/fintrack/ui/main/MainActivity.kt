@@ -4,29 +4,18 @@ package com.mobilschool.fintrack.ui.main
 import android.os.Bundle
 import android.view.Menu
 import androidx.navigation.findNavController
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.mobilschool.fintrack.R
+import com.mobilschool.fintrack.di.factory.ViewModelFactory
 import com.mobilschool.fintrack.ui.base.BaseActivity
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), MainView {
+class MainActivity : BaseActivity<MainViewModel>() {
 
-    @Inject
-    @InjectPresenter
-    lateinit var presenter: MainPresenter
-
-    @ProvidePresenter
-    fun providePresenter() = presenter
+    override fun provideViewModel(): MainViewModel = getViewModel(viewModelFactory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initView()
-    }
-
-    private fun initView() {
-
     }
 
     override fun onSupportNavigateUp(): Boolean =

@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'androidx.navigation.safeargs'
+
 /*def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 def keystoreProperties = new Properties()
@@ -57,7 +59,7 @@ ext {
     cicerone_version = "3.0.0"
     dagger_version = "2.16"
     room_version = "2.0.0-beta01"
-    lifecycle_version = "1.1.1"
+    lifecycle_version = "2.0.0-beta01"
     nav_version = "1.0.0-alpha04"
 }
 
@@ -74,20 +76,17 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
     implementation "androidx.cardview:cardview:$appcompat_version"
 
-    // Moxy
-    implementation "com.arello-mobile:moxy:$moxy_version"
-    kapt "com.arello-mobile:moxy-compiler:$moxy_version"
-
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
-    // LiveData
-    implementation "android.arch.lifecycle:livedata:$lifecycle_version"
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Dagger
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
@@ -113,7 +112,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

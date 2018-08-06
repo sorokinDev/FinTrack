@@ -8,11 +8,14 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mobilschool.fintrack.data.source.local.converter.CurrencyPairConverter
 import com.mobilschool.fintrack.data.source.local.converter.DateConverter
+import com.mobilschool.fintrack.data.source.local.converter.TransactionTypeConverter
 import com.mobilschool.fintrack.data.source.local.dao.CurrencyDao
 import com.mobilschool.fintrack.data.source.local.dao.ExchangeDao
+import com.mobilschool.fintrack.data.source.local.dao.TransactionDao
 import com.mobilschool.fintrack.data.source.local.dao.WalletDao
 import com.mobilschool.fintrack.data.source.local.entity.LocalExchangeRate
 import com.mobilschool.fintrack.data.source.local.entity.MoneyCurrency
+import com.mobilschool.fintrack.data.source.local.entity.MoneyTransaction
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
 import java.util.concurrent.Executors
 
@@ -22,8 +25,8 @@ fun ioThread(f: () -> Unit){
     IO_EXECUTOR.execute(f)
 }
 
-@Database(entities = [(MoneyCurrency::class), (LocalExchangeRate::class), (Wallet::class)], version = 1)
-@TypeConverters(CurrencyPairConverter::class, DateConverter::class)
+@Database(entities = [(MoneyCurrency::class), (LocalExchangeRate::class), (Wallet::class), (MoneyTransaction::class)], version = 1)
+@TypeConverters(CurrencyPairConverter::class, DateConverter::class, TransactionTypeConverter::class)
 abstract class FinTrackDB : RoomDatabase() {
 
     companion object {
@@ -74,5 +77,6 @@ abstract class FinTrackDB : RoomDatabase() {
     abstract fun currencyDao(): CurrencyDao
     abstract fun exchangeDao(): ExchangeDao
     abstract fun walletDao(): WalletDao
+    abstract fun transactionDao(): TransactionDao
 
 }

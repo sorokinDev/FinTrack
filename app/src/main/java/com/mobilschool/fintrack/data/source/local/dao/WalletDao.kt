@@ -14,5 +14,8 @@ interface WalletDao: BaseDao<Wallet> {
     @Query("SELECT * FROM wallets WHERE id = :walletId")
     fun getWalletById(walletId: Int): LiveData<Wallet>
 
+    @Query("UPDATE wallets SET balance = (balance + :amount) WHERE id = :walletId")
+    fun changeBalance(walletId: Int, amount: Double)
+
 
 }

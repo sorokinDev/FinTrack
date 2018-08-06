@@ -6,7 +6,6 @@ import java.util.*
 import android.preference.PreferenceManager
 import com.mobilschool.fincalc.TypeOperation
 import com.mobilschool.fintrack.di.component.DaggerAppComponent
-import com.mobilschool.fintrack.util.Utils
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import timber.log.Timber
