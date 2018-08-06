@@ -1,9 +1,5 @@
 <resources>
 
-    <string-array name="titles_tabs">
-        <item>Главная</item>
-        <item>Операции</item>
-    </string-array>
 
     <string name="amount">Amount</string>
     <string name="category">Category</string>
@@ -128,5 +124,20 @@
     <string name="add_transaction">New transaction</string>
     <string name="hint_sum">Sum</string>
     <string name="error_invalid_number">Invalid sum</string>
+    <string name="no_transactions_yet">Click button at the bottom to add transaction</string>
+    <string name="cash">Cash</string>
+    <string name="card">Card</string>
+    <string name="bank_account">Bank account</string>
+    <string name="error_select_category">Please select category</string>
+    <string name="job">Job</string>
+    <string name="freelance">Freelance</string>
+    <string name="tutoring">Tutoring</string>
+    <string name="shopping">Shopping</string>
+    <string name="medicine">Medicine</string>
+    <string name="car" >Car</string>
+    <string name="house">House</string>
+    <string name="hobby">Hobby</string>
+    <string name="clothes">Clothes</string>
+    <string name="debt_return">Debt return</string>
 
 </resources>

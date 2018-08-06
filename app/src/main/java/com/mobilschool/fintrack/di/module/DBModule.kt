@@ -32,4 +32,8 @@ class DBModule {
     @Provides
     @Singleton
     fun provideTransactionDao(db: FinTrackDB) = db.transactionDao()
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(db: FinTrackDB) = db.categoryDao()
 }

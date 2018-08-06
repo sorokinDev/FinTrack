@@ -7,7 +7,7 @@ class TransactionTypeConverter{
     companion object {
         val convertionMap = listOf(
                 Pair(TransactionType.EXPENSE, 1),
-                Pair(TransactionType.INCOME, 1)
+                Pair(TransactionType.INCOME, 2)
         )
     }
 

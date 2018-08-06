@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+enum class WalletType{
+        CASH, CARD, BANK_ACCOUNT
+}
 
 @Entity(tableName = "wallets")
 data class Wallet(
@@ -19,5 +22,8 @@ data class Wallet(
         var currency: String,
 
         @ColumnInfo(name="balance")
-        var balance: Double
+        var balance: Double,
+
+        @ColumnInfo(name="wallet_type")
+        var walletType: WalletType
 )

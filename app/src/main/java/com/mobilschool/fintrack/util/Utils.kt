@@ -7,8 +7,10 @@ import androidx.lifecycle.LiveData
 import com.mobilschool.fincalc.entity.currency.RUB
 import com.mobilschool.fincalc.entity.currency.USD
 import timber.log.Timber
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 
@@ -45,4 +47,4 @@ fun <T> LiveData<T>.observe(owner: LifecycleOwner, notNull: (data : T) -> Unit,
 
 fun Double.toMoney() = ((this * 100).roundToLong() / 100.0)
 
-fun Double.toMoneyString() = String.format("%.0f", this)
+fun Double.toMoneyString() = DecimalFormat("#,###").format(this.roundToLong()).replace(',', ' ')

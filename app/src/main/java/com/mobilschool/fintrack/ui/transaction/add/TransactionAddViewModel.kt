@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.mobilschool.fintrack.data.interactor.WalletInteractor
 import com.mobilschool.fintrack.data.source.local.entity.MoneyTransaction
+import com.mobilschool.fintrack.data.source.local.entity.TransactionCategory
 import com.mobilschool.fintrack.data.source.local.entity.TransactionType
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
 import com.mobilschool.fintrack.ui.base.BaseViewModel
@@ -17,6 +18,11 @@ class TransactionAddViewModel @Inject constructor(val walletInteractor: WalletIn
         return@switchMap walletInteractor.getWalletById(it)
     }
     private var transactionType = MutableLiveData<TransactionType>().apply { value = TransactionType.EXPENSE }
+    private var categories = Transformations.switchMap(transactionType){
+        walletInteractor.getTransactionCategoriesByType(it)
+    }
+
+    private var selectedCategoryId = MutableLiveData<Int>()
 
     fun setWalletId(id: Int){
         walletId.value = id
@@ -35,8 +41,19 @@ class TransactionAddViewModel @Inject constructor(val walletInteractor: WalletIn
     }
 
     fun addTransaction(amount: Double) {
-        val newTransaction = MoneyTransaction(0, walletId.value!!, amount, Date(), transactionType.value!!)
+        val newTransaction = MoneyTransaction(0, walletId.value!!, amount, Date(), transactionType.value!!, selectedCategoryId.value!!)
         walletInteractor.insertTransaction(newTransaction)
+    }
+
+    fun getCategories(): LiveData<List<TransactionCategory>> {
+        return categories
+    }
+
+    fun getSelectedCategoryId(): LiveData<Int> {
+        return selectedCategoryId
+    }
+    fun setSelectedCategoryId(id: Int) {
+        selectedCategoryId.value = id
     }
 
 }

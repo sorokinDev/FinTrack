@@ -20,6 +20,10 @@ class HomeViewModel @Inject constructor(
     private var balanceInFavoriteCurrencies = Transformations.switchMap(selectedWallet){
         return@switchMap walletInteractor.getWalletBalanceInFavoriteCurrencies(it)
     }
+    private var transactions = Transformations.switchMap(selectedWallet){
+        return@switchMap walletInteractor.getLastNTransacionsForWallet(100, it.id)
+    }
+
 
     fun getWallets(): LiveData<List<Wallet>>{
         return wallets
@@ -36,4 +40,6 @@ class HomeViewModel @Inject constructor(
     fun getSelectedWallet() = selectedWallet
 
     fun getBalanceInFavoriteCurrencies() = balanceInFavoriteCurrencies
+
+    fun getTransactions() = transactions
 }

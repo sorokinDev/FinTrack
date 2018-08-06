@@ -1,15 +1,20 @@
 package com.mobilschool.fintrack.data.repository
 
 import androidx.lifecycle.LiveData
+import com.mobilschool.fintrack.data.source.local.dao.CategoryDao
 import com.mobilschool.fintrack.data.source.local.dao.TransactionDao
 import com.mobilschool.fintrack.data.source.local.entity.MoneyTransaction
+import com.mobilschool.fintrack.data.source.local.entity.MoneyTransactionWithCategory
+import com.mobilschool.fintrack.data.source.local.entity.TransactionCategory
+import com.mobilschool.fintrack.data.source.local.entity.TransactionType
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
-class TransactionRepository @Inject constructor(val transactionDao: TransactionDao) {
+class TransactionRepository @Inject constructor(val transactionDao: TransactionDao,
+                                                val categoryDao: CategoryDao) {
 
-    fun getLastNTransactions(n: Int): LiveData<List<MoneyTransaction>> {
-        return transactionDao.selectLastNTransactions(n)
+    fun getLastNTransactionsForWallet(n: Int, walletId: Int): LiveData<List<MoneyTransactionWithCategory>> {
+        return transactionDao.selectLastNTransactionsForWallet(n, walletId)
     }
 
     fun insertOrUpdateTransaction(transaction: MoneyTransaction){
@@ -17,6 +22,10 @@ class TransactionRepository @Inject constructor(val transactionDao: TransactionD
             transactionDao.insertOrUpdate(transaction)
         }
 
+    }
+
+    fun getCategoriesByType(type: TransactionType): LiveData<List<TransactionCategory>>{
+        return categoryDao.getCategoriesByType(type)
     }
 
 
