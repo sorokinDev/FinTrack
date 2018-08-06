@@ -29,13 +29,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mobilschool.fintrack.ui.main.MainActivity" />
         </activity>
-        <activity android:name="com.mobilschool.fintrack.ui.bills.BillsActivity"
-            android:parentActivityName="com.mobilschool.fintrack.ui.main.MainActivity"
-            android:label="@string/title_bills_activity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobilschool.fintrack.ui.main.MainActivity" />
-        </activity>
     </application>
 
 </manifest>

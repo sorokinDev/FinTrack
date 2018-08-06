@@ -4,8 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import com.mobilschool.fincalc.entity.currency.RUB
-import com.mobilschool.fincalc.entity.currency.USD
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat

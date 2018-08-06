@@ -94,10 +94,7 @@ class TransactionAddFragment : BaseFragment<TransactionAddViewModel>() {
         }
 
         switch_periodic.setOnCheckedChangeListener { btn, checked ->
-            if(checked){
-                viewModel.setPeriodic(checked)
-
-            }
+            viewModel.setPeriodic(checked)
         }
 
         fab_confirm.setOnClickListener {
