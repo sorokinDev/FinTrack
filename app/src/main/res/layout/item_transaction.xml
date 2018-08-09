@@ -6,23 +6,24 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <!--<ImageView
-        android:id="@+id/iv_trans_target_icon"
+    <ImageView
+        android:id="@+id/iv_trans_category"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/travel" />
--->
+
     <TextView
         android:id="@+id/tv_trans_target"
         style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_trans_category"
+        app:layout_constraintStart_toEndOf="@+id/iv_trans_category"
+        app:layout_constraintTop_toTopOf="@+id/iv_trans_category"
         tools:text="Travelling" />
 
     <TextView
@@ -30,22 +31,12 @@
         style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:gravity="right"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_trans_target"
-        app:layout_constraintEnd_toStartOf="@+id/tv_trans_currency"
-        tools:text="1000" />
-
-    <TextView
-        android:id="@+id/tv_trans_currency"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
+        android:textColor="@color/colorAccent"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_trans_category"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_trans_target"
-        tools:text="$" />
+        app:layout_constraintTop_toTopOf="@+id/iv_trans_category"
+        tools:text="1000$" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,8 @@ import androidx.lifecycle.Observer
 import com.mobilschool.fintrack.data.common.*
 import com.mobilschool.fintrack.data.source.local.dao.CurrencyDao
 import com.mobilschool.fintrack.data.source.local.dao.ExchangeDao
-import com.mobilschool.fintrack.data.source.local.entity.LocalExchangeRate
-import com.mobilschool.fintrack.data.source.local.entity.MoneyCurrency
+import com.mobilschool.fintrack.data.source.local.entity.Currency
+import com.mobilschool.fintrack.data.source.local.entity.ExchangeRate
 import com.mobilschool.fintrack.data.source.remote.api.ExchangeRateApi
 import com.mobilschool.fintrack.data.source.remote.entity.RemoteExchangeRate
 import com.mobilschool.fintrack.util.CurrencyPair
@@ -28,18 +28,18 @@ class CurrencyRepository @Inject constructor(
         val EXCHANGE_RATE_LIFETIME = 1800000
     }
 
-    fun getAllCurrencies(): LiveData<List<MoneyCurrency>> {
+    fun getAllCurrencies(): LiveData<List<Currency>> {
         return currencyDao.getAllCurrencies()
     }
 
-    fun getFavoriteCurrencies(): LiveData<List<MoneyCurrency>> {
+    fun getFavoriteCurrencies(): LiveData<List<Currency>> {
         return currencyDao.getFavoriteCurrencies()
     }
 
 
-    fun getLocalExchangeRates(baseCur: String, currencies: List<String>): LiveData<List<LocalExchangeRate>> {
+    fun getExchangeRates(baseCur: String, currencies: List<String>): LiveData<List<ExchangeRate>> {
 
-        val date = Date()
+        val date = Date().time
 
         val currencyPairList = mutableListOf<CurrencyPair>()
 
@@ -47,16 +47,16 @@ class CurrencyRepository @Inject constructor(
             currencyPairList.add(Pair(baseCur, it))
         }
 
-        val dbSource =  exchangeDao.getExchangeRates(currencyPairList)
+        val dbSource =  exchangeDao.getExchangeRates(currencies.map { "${baseCur}_${it}" })
 
-        val dbObserver = object : Observer<List<LocalExchangeRate>> {
-            override fun onChanged(dbData: List<LocalExchangeRate>?) {
+        val dbObserver = object : Observer<List<ExchangeRate>> {
+            override fun onChanged(dbData: List<ExchangeRate>?) {
                 dbSource.removeObserver(this)
                 var shouldRefresh = false
 
                 Timber.i("IN OBSERVER")
 
-                if(dbData == null || dbData.size < currencyPairList.size || dbData.any { date.diff(it.date) > EXCHANGE_RATE_LIFETIME }) {
+                if(dbData == null || dbData.size < currencyPairList.size || dbData.any { date - it.date > EXCHANGE_RATE_LIFETIME }) {
                     Timber.i("WILL REFRESH")
                     shouldRefresh = true
                 }
@@ -73,9 +73,9 @@ class CurrencyRepository @Inject constructor(
                                 val remData = response.body()
                                 Timber.i("Success response")
                                 launch {
-                                    val resList = mutableListOf<LocalExchangeRate>()
+                                    val resList = mutableListOf<ExchangeRate>()
                                     remData?.rates?.forEach { curToRate ->
-                                        resList.add(LocalExchangeRate(CurrencyPair(baseCur, curToRate.key), curToRate.value, Date()))
+                                        resList.add(ExchangeRate("${baseCur}_${curToRate.key}", curToRate.value, Date().time))
                                     }
                                     if(!resList.isEmpty()){
                                         exchangeDao.insertOrUpdateAll(resList)

@@ -7,10 +7,6 @@ import androidx.room.Room
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.data.source.local.converter.CurrencyPairConverter
-import com.mobilschool.fintrack.data.source.local.converter.DateConverter
-import com.mobilschool.fintrack.data.source.local.converter.TransactionTypeConverter
-import com.mobilschool.fintrack.data.source.local.converter.WalletTypeConverter
 import com.mobilschool.fintrack.data.source.local.dao.*
 import com.mobilschool.fintrack.data.source.local.entity.*
 import java.util.concurrent.Executors
@@ -21,9 +17,9 @@ fun ioThread(f: () -> Unit){
     IO_EXECUTOR.execute(f)
 }
 
-@Database(entities = [(MoneyCurrency::class), (LocalExchangeRate::class), (Wallet::class), (MoneyTransaction::class),
-                        (TransactionCategory::class), (PeriodicTransaction::class)], version = 1)
-@TypeConverters(CurrencyPairConverter::class, DateConverter::class, TransactionTypeConverter::class, WalletTypeConverter::class)
+@Database(entities = [(Currency::class), (ExchangeRate::class), (Wallet::class), (Transaction::class),
+                        (Category::class), (Template::class)], version = 1)
+@TypeConverters(TransactionTypeConverter::class, WalletTypeConverter::class)
 abstract class FinTrackDB : RoomDatabase() {
 
     companion object {
@@ -44,33 +40,33 @@ abstract class FinTrackDB : RoomDatabase() {
                                     val roomDB = getInstance(context)
 
                                     val defaultCurrenies = listOf(
-                                            MoneyCurrency("RUB", "Р", true),
-                                            MoneyCurrency("USD", "$", true),
-                                            MoneyCurrency("EUR", "E", true)
-                                    )
-
-                                    val defaultWallets = listOf(
-                                            Wallet(0, context.resources.getString(R.string.cash), "RUB", 0.0, WalletType.CASH),
-                                            Wallet(0, context.resources.getString(R.string.card), "RUB", 0.0, WalletType.CARD),
-                                            Wallet(0, context.resources.getString(R.string.bank_account), "RUB", 0.0, WalletType.BANK_ACCOUNT)
-                                    )
-
-                                    val defaultCategories = listOf(
-                                            TransactionCategory(0, context.resources.getString(R.string.job), TransactionType.INCOME),
-                                            TransactionCategory(0, context.resources.getString(R.string.freelance), TransactionType.INCOME),
-                                            TransactionCategory(0, context.resources.getString(R.string.tutoring), TransactionType.INCOME),
-                                            TransactionCategory(0, context.resources.getString(R.string.debt_return), TransactionType.INCOME),
-                                            TransactionCategory(0, context.resources.getString(R.string.shopping), TransactionType.EXPENSE),
-                                            TransactionCategory(0, context.resources.getString(R.string.medicine), TransactionType.EXPENSE),
-                                            TransactionCategory(0, context.resources.getString(R.string.car), TransactionType.EXPENSE),
-                                            TransactionCategory(0, context.resources.getString(R.string.house), TransactionType.EXPENSE),
-                                            TransactionCategory(0, context.resources.getString(R.string.hobby), TransactionType.EXPENSE),
-                                            TransactionCategory(0, context.resources.getString(R.string.clothes), TransactionType.EXPENSE)
+                                            Currency("RUB", "\u20BD", true),
+                                            Currency("USD", "$", true),
+                                            Currency("EUR", "€", true)
                                     )
 
                                     roomDB.currencyDao().insertOrUpdateAll(defaultCurrenies)
-                                    roomDB.walletDao().insertOrUpdateAll(defaultWallets)
+
+                                    val defaultCategories = listOf(
+                                            Category(0, context.resources.getString(R.string.job), TransactionType.INCOME, 7),
+                                            Category(0, context.resources.getString(R.string.freelance), TransactionType.INCOME, 8),
+                                            Category(0, context.resources.getString(R.string.shopping), TransactionType.EXPENSE, 6),
+                                            Category(0, context.resources.getString(R.string.medicine), TransactionType.EXPENSE, 5),
+                                            Category(0, context.resources.getString(R.string.car), TransactionType.EXPENSE, 1),
+                                            Category(0, context.resources.getString(R.string.house), TransactionType.EXPENSE, 4),
+                                            Category(0, context.resources.getString(R.string.clothes), TransactionType.EXPENSE, 2),
+                                            Category(0, context.resources.getString(R.string.gifts), TransactionType.EXPENSE, 3)
+                                    )
+
                                     roomDB.categoryDao().insertOrUpdateAll(defaultCategories)
+
+                                    val defaultWallets = listOf(
+                                            Wallet(0, "RUB", 0.0, context.resources.getString(R.string.cash), WalletType.CASH),
+                                            Wallet(0, "RUB", 0.0, context.resources.getString(R.string.card), WalletType.CARD),
+                                            Wallet(0, "RUB", 0.0, context.resources.getString(R.string.bank_account), WalletType.BANK_ACCOUNT)
+                                    )
+
+                                    roomDB.walletDao().insertOrUpdateAll(defaultWallets)
 
                                 }
                             }
@@ -89,6 +85,6 @@ abstract class FinTrackDB : RoomDatabase() {
     abstract fun walletDao(): WalletDao
     abstract fun transactionDao(): TransactionDao
     abstract fun categoryDao(): CategoryDao
-    abstract fun periodicTransactionDao(): PeriodicTransactionDao
+    abstract fun periodicTransactionDao(): TemplateDao
 
 }

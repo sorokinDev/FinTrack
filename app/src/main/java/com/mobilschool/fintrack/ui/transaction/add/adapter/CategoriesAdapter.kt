@@ -8,12 +8,12 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.data.source.local.entity.TransactionCategory
+import com.mobilschool.fintrack.data.source.local.entity.Category
 
-class CategoriesAdapter(context: Context?)
-    : ArrayAdapter<TransactionCategory>(context, R.layout.item_category_spinner) {
+class CategoriesAdapter(context: Context)
+    : ArrayAdapter<Category>(context, R.layout.item_category_spinner) {
 
-    var data: List<TransactionCategory> = listOf()
+    var data: List<Category> = listOf()
             get
             set(value) {
                 field = value

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#808285</color>
+    <color name="colorAccent">#4981d7</color>
+    <color name="colorAccentPale">#4d6293de</color>
+
+    <color name="colorPrimaryText">#333333</color>
 
     <color name="colorExpense">#F33F33</color>
     <color name="colorIncome">#009988</color>
+    <color name="colorRed">#ff0000</color>
 </resources>

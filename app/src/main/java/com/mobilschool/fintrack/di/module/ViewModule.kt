@@ -1,8 +1,9 @@
 package com.mobilschool.fintrack.di.module
 
 import com.mobilschool.fintrack.ui.home.HomeFragment
+import com.mobilschool.fintrack.ui.transaction.add.adapter.TransactionAddBottomSheetFragment
+import com.mobilschool.fintrack.ui.home.bottom_sheet.WalletsBottomSheetFragment
 import com.mobilschool.fintrack.ui.main.MainActivity
-import com.mobilschool.fintrack.ui.transaction.add.TransactionAddFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -16,6 +17,9 @@ abstract class ViewModule {
     abstract fun homeFragment(): HomeFragment
 
     @ContributesAndroidInjector
-    abstract fun transactionAddFragment(): TransactionAddFragment
+    abstract fun walletsBottomSheetFragment(): WalletsBottomSheetFragment
+
+    @ContributesAndroidInjector
+    abstract fun transactionAddBottomSheetFragment(): TransactionAddBottomSheetFragment
 
 }

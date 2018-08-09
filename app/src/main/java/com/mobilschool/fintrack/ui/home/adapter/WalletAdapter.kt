@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.mobilschool.fintrack.R
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
 import com.mobilschool.fintrack.data.source.local.entity.WalletType
+import com.mobilschool.fintrack.data.source.local.entity.WalletTypeConverter
 
 class WalletAdapter(context: Context?)
     : ArrayAdapter<Wallet>(context, R.layout.item_wallet_small) {
@@ -28,11 +29,7 @@ class WalletAdapter(context: Context?)
         setDropDownViewResource(R.layout.item_wallet_dropdown)
     }
 
-    private fun getDrawableResForWallet(wallet: Wallet): Int = when(wallet.walletType){
-        WalletType.CASH -> R.drawable.coins
-        WalletType.CARD -> R.drawable.card
-        WalletType.BANK_ACCOUNT -> R.drawable.bank
-    }
+    private fun getDrawableResForWallet(wallet: Wallet): Int = WalletTypeConverter.walletTypeToDrawableRes(wallet.type)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val wallet = getItem(position)

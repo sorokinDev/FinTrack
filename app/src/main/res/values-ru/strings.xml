@@ -140,5 +140,8 @@
     <string name="error_invalid_period">Введите период</string>
     <string name="periodic_transaction_added">Периодичная операция добавлена!</string>
     <string name="expense">Расходы</string>
+    <string name="logo_ya">Я.</string>
+    <string name="show_in_other_currencies">В других валютах</string>
+    <string name="btn_new_transaction">Транзакция</string>
 
 </resources>

@@ -3,42 +3,40 @@ package com.mobilschool.fintrack.ui.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mobilschool.fintrack.R
-import com.mobilschool.fintrack.data.source.local.entity.MoneyTransaction
-import com.mobilschool.fintrack.data.source.local.entity.MoneyTransactionWithCategory
+import com.mobilschool.fintrack.data.entity.TransactionFull
+import com.mobilschool.fintrack.data.source.local.entity.CategoryImgResConverter
 import com.mobilschool.fintrack.data.source.local.entity.TransactionType
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
-import com.mobilschool.fintrack.util.CurrencyAmountPair
-import com.mobilschool.fintrack.util.toMoney
 import com.mobilschool.fintrack.util.toMoneyString
 
 class TransactionAdapter: RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
     lateinit var wallet: Wallet
-    var items = listOf<MoneyTransactionWithCategory>()
+    var items = listOf<TransactionFull>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvCurrency: TextView
         val tvSum: TextView
-        val tvTarget: TextView
+        val tvCategory: TextView
+        val ivCategory: ImageView
 
         init {
-            tvTarget = itemView.findViewById(R.id.tv_trans_target)
+            tvCategory = itemView.findViewById(R.id.tv_trans_target)
             tvSum = itemView.findViewById(R.id.tv_trans_sum)
-            tvCurrency = itemView.findViewById(R.id.tv_trans_currency)
+            ivCategory = itemView.findViewById(R.id.iv_trans_category)
         }
 
-        fun bind(wallet: Wallet, item: MoneyTransactionWithCategory){
-            tvTarget.text = item.categoryName
-            tvSum.text = item.amount.toMoneyString()
-            tvCurrency.text = wallet.currency
+        fun bind(item: TransactionFull){
+            tvCategory.text = item.categoryName
+            tvSum.text = "${item.transaction.amount.toMoneyString()} ${item.currencySymbol}"
+            ivCategory.setImageResource(CategoryImgResConverter.getDrawable(item.categoryImgRes))
 
-            val textColor = ResourcesCompat.getColor(tvTarget.resources, if(item.type == TransactionType.EXPENSE) { R.color.colorExpense } else { R.color.colorIncome }, null)
-            tvTarget.setTextColor(textColor)
+            val textColor = ResourcesCompat.getColor(tvCategory.resources, if(item.transaction.type == TransactionType.EXPENSE) { R.color.colorExpense } else { R.color.colorIncome }, null)
+            tvCategory.setTextColor(textColor)
             tvSum.setTextColor(textColor)
-            tvCurrency.setTextColor(textColor)
         }
     }
 
@@ -49,12 +47,12 @@ class TransactionAdapter: RecyclerView.Adapter<TransactionAdapter.ViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(wallet, items[position])
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun setData(wallet: Wallet, data: List<MoneyTransactionWithCategory>){
+    fun setData(wallet: Wallet, data: List<TransactionFull>){
         this.wallet = wallet
         items = data
         notifyDataSetChanged()

@@ -21,14 +21,14 @@ class BalanceAdapter: RecyclerView.Adapter<BalanceAdapter.ViewHolder>() {
 
         init {
             tvCurrency = itemView.findViewById(R.id.tv_currency)
-            tvBalance = itemView.findViewById(R.id.tv_balance)
+            tvBalance = itemView.findViewById(R.id.tv_in_other_currencies)
         }
 
         fun bind(walletBalance: Double, balance: CurrencyAmountPair){
-            tvCurrency.text = balance.first
+            tvCurrency.text = balance.first.id
             val balanceAsMoney = balance.second.toMoney()
             if(balanceAsMoney != 0.0 || walletBalance == 0.0){
-                tvBalance.text = balanceAsMoney.toMoneyString()
+                tvBalance.text = "${balanceAsMoney.toMoneyString()} ${balance.first.symbol}"
             }else{
                 tvBalance.text = "---"
             }
