@@ -140,5 +140,19 @@
     <string name="error_invalid_period">Введите период</string>
     <string name="periodic_transaction_added">Периодичная операция добавлена!</string>
     <string name="expense">Расходы</string>
+    <string name="logo_ya">Я.</string>
+    <string name="show_in_other_currencies">В других валютах</string>
+    <string name="btn_new_transaction">Транзакция</string>
+    <string name="confirm_transaction">Добавить</string>
+    <string name="nav_template_and_periodic_transactions">Шаблоны</string>
+    <string name="templates">Шаблоны</string>
+    <string name="periodic">Периодические</string>
+    <string name="gifts">Подарки</string>
+    <string name="no_data">Добавьте первую транзакцию.</string>
+    <string name="deletion">Удаление</string>
+    <string name="are_you_sure_delete">Вы действительно хотите удалить этот элемент?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="template_every_x_days">Каждые %1$d дн.</string>
 
 </resources>
