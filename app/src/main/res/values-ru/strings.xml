@@ -114,7 +114,7 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="settings">Настройки</string>
     <string name="about">О программе</string>
-    <string name="description_app">Описание: \n Приложение для управления личными финансами \n Разработчик: Зеленин Р.А. \n ШМР Яндекс \n 2018</string>
+    <string name="description_app">Описание: \n Приложение для управления личными финансами \n Разработчик: Сорокин В. А. \n ШМР Яндекс \n 2018</string>
     <string name="accounts">Счета</string>
     <string name="add_transaction">Новая операция</string>
     <string name="hint_sum">Сумма</string>
@@ -154,5 +154,6 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="template_every_x_days">Каждые %1$d дн.</string>
+    <string name="add_your_transaction_here">Вы еще не добавляли транзакции.</string>
 
 </resources>

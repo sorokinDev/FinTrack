@@ -142,20 +142,20 @@
     <string name="transaction_added">Transaction added!</string>
     <string name="error_invalid_period">Invalid number of days</string>
     <string name="periodic_transaction_added">Periodic transaction added!</string>
-    <string name="btn_new_transaction">New transaction</string>
-    <string name="show_in_other_currencies">In other currencies</string>
     <string name="logo_ya">Ya.</string>
+    <string name="show_in_other_currencies">In other currencies</string>
+    <string name="btn_new_transaction">Transaction</string>
     <string name="confirm_transaction">Confirm</string>
     <string name="nav_template_and_periodic_transactions">Templates and periodic</string>
     <string name="templates">Templates</string>
     <string name="periodic">Periodic</string>
     <string name="gifts">Gifts</string>
-    <string name="no_data">No data</string>
+    <string name="no_data">Add transaction.</string>
     <string name="deletion">Deletion</string>
     <string name="are_you_sure_delete">Are you sure want to delete this item?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="template_every_x_days">Every %1$d days</string>
-    <string name="add_your_transaction_here">Add your transactions here.</string>
+    <string name="add_your_transaction_here">Add your transaction here</string>
 
 </resources>
