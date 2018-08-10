@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobilschool.fintrack">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".FinTrackerApplication">
-        <activity android:name="com.mobilschool.fintrack.ui.MainActivity">
+        <activity android:name="com.mobilschool.fintrack.ui.main.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,17 +24,10 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.mobilschool.fintrack.ui.MainActivity">
+            android:parentActivityName="com.mobilschool.fintrack.ui.main.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobilschool.fintrack.ui.MainActivity" />
-        </activity>
-        <activity android:name="com.mobilschool.fintrack.ui.bills.BillsActivity"
-            android:parentActivityName="com.mobilschool.fintrack.ui.MainActivity"
-            android:label="@string/title_bills_activity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mobilschool.fintrack.ui.MainActivity" />
+                android:value="com.mobilschool.fintrack.ui.main.MainActivity" />
         </activity>
     </application>
 

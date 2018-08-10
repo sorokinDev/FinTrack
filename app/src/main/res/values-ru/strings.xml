@@ -15,7 +15,7 @@
     <string name="failed_add_record">Ошибка добавления записи</string>
     <string name="title_bills_activity">Счета</string>
     <string name="app_name">FinTrack</string>
-    <string name="current_balance">Баланс счета</string>
+    <string name="current_balance">Баланс</string>
 
     <string name="ok">Oк</string>
     <string name="cancel">Отмена</string>
@@ -115,5 +115,30 @@
     <string name="settings">Настройки</string>
     <string name="about">О программе</string>
     <string name="description_app">Описание: \n Приложение для управления личными финансами \n Разработчик: Зеленин Р.А. \n ШМР Яндекс \n 2018</string>
+    <string name="accounts">Счета</string>
+    <string name="add_transaction">Новая операция</string>
+    <string name="hint_sum">Сумма</string>
+    <string name="error_invalid_number">Введите сумму</string>
+    <string name="no_transactions_yet">У вас еще нет операций. Нажмите на кнопку снизу, чтобы добавить.</string>
+    <string name="cash">Наличные</string>
+    <string name="card">Карта</string>
+    <string name="bank_account">Банковский счет</string>
+    <string name="error_select_category">Выберите категорию</string>
+    <string name="job">Работа</string>
+    <string name="freelance">Фриланс</string>
+    <string name="tutoring">Репетиторство</string>
+    <string name="shopping">Покупки</string>
+    <string name="medicine">Здоровье</string>
+    <string name="car">Машина</string>
+    <string name="house">Дом</string>
+    <string name="hobby">Хобби</string>
+    <string name="clothes">Одежда</string>
+    <string name="debt_return">Возврат долга</string>
+    <string name="is_periodic">Повторять?</string>
+    <string name="hint_period">Период (в днях)</string>
+    <string name="transaction_added">Операция добавлена!</string>
+    <string name="error_invalid_period">Введите период</string>
+    <string name="periodic_transaction_added">Периодичная операция добавлена!</string>
+    <string name="expense">Расходы</string>
 
 </resources>
