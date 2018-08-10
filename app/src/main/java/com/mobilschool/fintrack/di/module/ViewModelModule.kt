@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import com.mobilschool.fintrack.di.factory.ViewModelKey
 import com.mobilschool.fintrack.ui.home.HomeViewModel
 import com.mobilschool.fintrack.ui.main.MainViewModel
-import com.mobilschool.fintrack.ui.transaction.add.adapter.TransactionAddViewModel
+import com.mobilschool.fintrack.ui.transaction.add.TransactionAddViewModel
 import com.mobilschool.fintrack.ui.template.TemplatesPeriodicsViewModel
+import com.mobilschool.fintrack.ui.template.add.TemplateAddViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -31,5 +32,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TemplatesPeriodicsViewModel::class)
     abstract fun bindTemplatesPeriodicsViewModel(viewModel: TemplatesPeriodicsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TemplateAddViewModel::class)
+    abstract fun bindTemplateAddViewModel(viewModel: TemplateAddViewModel): ViewModel
 
 }

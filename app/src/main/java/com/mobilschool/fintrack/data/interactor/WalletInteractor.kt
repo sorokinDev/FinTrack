@@ -31,7 +31,6 @@ class WalletInteractor @Inject constructor(
         return walletRepository.getWalletById(walletId)
     }
 
-    // TODO: REFACTOR
     fun exchangeMoney(amount: Double, baseCur: String, curr: List<Currency>): LiveData<List<CurrencyAmountPair>> {
         return Transformations.map(
                 currencyRepository.getExchangeRates(baseCur, curr.map { it.id })
@@ -77,20 +76,16 @@ class WalletInteractor @Inject constructor(
         return transactionRepository.getCategoriesByType(type)
     }
 
-    // TODO: change date logic
     fun executePendingTransactions(){
         val unexec = transactionRepository.getUnexecutedPeriodicTransactions()
         val obs = object : Observer<List<TemplateFull>> {
             override fun onChanged(trans: List<TemplateFull>?) {
                 unexec.removeObserver(this)
-                Timber.i("in observer")
                 launch {
                     val nowTime = Date().time
                     val transToAdd = mutableListOf<Transaction>()
-                    Timber.i("before foreach")
 
                     trans?.forEach {
-                        Timber.i("Adding periodic")
                         var newTime = it.transaction.date + it.transaction.period
                         while (newTime <= nowTime){
                             transToAdd.add(Transaction(0, it.transaction.currencyId, it.transaction.walletId, newTime, it.transaction.amount, it.transaction.categoryId, it.transaction.type))
@@ -106,12 +101,20 @@ class WalletInteractor @Inject constructor(
         unexec.observeForever(obs)
     }
 
-    fun addPeriodicTransaction(trans: Template){
+    fun addTemplate(trans: Template){
         transactionRepository.insertTemplate(trans)
     }
 
     fun getAllTemplates(): LiveData<List<TemplateFull>> {
         return transactionRepository.getAllTemplates()
+    }
+
+    fun getAllTemplatesByWalletId(walId: Int): LiveData<List<TemplateFull>> {
+        return transactionRepository.getAllTemplatesByWalletId(walId)
+    }
+
+    fun getTemplateById(id: Int): LiveData<TemplateFull> {
+        return transactionRepository.getTemplateById(id)
     }
 
     fun getAllPeriodics(): LiveData<List<TemplateFull>> {

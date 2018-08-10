@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.ui.home.adapter
+package com.mobilschool.fintrack.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View

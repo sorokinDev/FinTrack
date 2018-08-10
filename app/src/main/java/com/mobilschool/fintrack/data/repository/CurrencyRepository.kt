@@ -68,10 +68,8 @@ class CurrencyRepository @Inject constructor(
                         }
 
                         override fun onResponse(call: Call<RemoteExchangeRate>?, response: Response<RemoteExchangeRate>?) {
-                            Timber.i("IN ONRESPONSE")
                             if(response != null && response.isSuccessful && response.body() != null){
                                 val remData = response.body()
-                                Timber.i("Success response")
                                 launch {
                                     val resList = mutableListOf<ExchangeRate>()
                                     remData?.rates?.forEach { curToRate ->

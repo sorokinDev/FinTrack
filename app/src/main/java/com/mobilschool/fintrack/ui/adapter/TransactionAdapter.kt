@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.ui.home.adapter
+package com.mobilschool.fintrack.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +35,6 @@ class TransactionAdapter: RecyclerView.Adapter<TransactionAdapter.ViewHolder>() 
             ivCategory.setImageResource(CategoryImgResConverter.getDrawable(item.categoryImgRes))
 
             val textColor = ResourcesCompat.getColor(tvCategory.resources, if(item.transaction.type == TransactionType.EXPENSE) { R.color.colorExpense } else { R.color.colorIncome }, null)
-            tvCategory.setTextColor(textColor)
             tvSum.setTextColor(textColor)
         }
     }

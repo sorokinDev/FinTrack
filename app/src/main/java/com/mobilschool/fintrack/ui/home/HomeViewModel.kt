@@ -13,35 +13,25 @@ class HomeViewModel @Inject constructor(
         val walletInteractor: WalletInteractor
 ): BaseViewModel() {
 
-    private var wallets: LiveData<List<WalletFull>> = walletInteractor.getAllWallets()
-    private var selectedWalletId: MutableLiveData<Int> = MutableLiveData()
+    val wallets: LiveData<List<WalletFull>> = walletInteractor.getAllWallets()
 
-    private var selectedWallet: LiveData<WalletFull> = Transformations.switchMap(selectedWalletId){
+    val selectedWalletId: MutableLiveData<Int> = MutableLiveData()
+
+    val selectedWallet: LiveData<WalletFull> = Transformations.switchMap(selectedWalletId){
         return@switchMap walletInteractor.getWalletById(it)
     }
 
-    private var balanceInFavoriteCurrencies = Transformations.switchMap(selectedWallet){
+    val templates = Transformations.switchMap(selectedWalletId){
+        return@switchMap walletInteractor.getAllTemplatesByWalletId(it)
+    }
+
+    val balanceInFavoriteCurrencies = Transformations.switchMap(selectedWallet){
         return@switchMap walletInteractor.getWalletBalanceInFavoriteCurrencies(it.wallet)
     }
 
-    private var transactions = Transformations.switchMap(selectedWallet){
+    val transactions = Transformations.switchMap(selectedWallet){
         return@switchMap walletInteractor.getLastNTransacionsForWallet(it.wallet.id, 100)
     }
-
-
-    fun getWallets() = wallets
-
-    fun getSelectedWalletId() = selectedWalletId
-
-    fun setSelectedWalletId(sel: Int){
-        selectedWalletId.value = sel
-    }
-
-    fun getSelectedWallet() = selectedWallet
-
-    fun getBalanceInFavoriteCurrencies() = balanceInFavoriteCurrencies
-
-    fun getTransactions() = transactions
 
     fun executePendingTransactions(){
         walletInteractor.executePendingTransactions()

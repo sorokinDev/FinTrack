@@ -59,5 +59,13 @@ class TransactionRepository @Inject constructor(val transactionDao: TransactionD
         }
     }
 
+    fun getAllTemplatesByWalletId(walId: Int): LiveData<List<TemplateFull>> {
+        return templateDao.getAllTemplatesByWalletId(walId)
+    }
+
+    fun getTemplateById(id: Int): LiveData<TemplateFull> {
+        return templateDao.getTemplateById(id)
+    }
+
 
 }

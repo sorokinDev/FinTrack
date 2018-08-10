@@ -1,4 +1,4 @@
-package com.mobilschool.fintrack.ui.transaction.add.adapter
+package com.mobilschool.fintrack.ui.transaction.add
 
 import android.app.Dialog
 import android.content.Context
@@ -17,49 +17,52 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobilschool.fintrack.R
 import com.mobilschool.fintrack.data.source.local.entity.TransactionType
 import com.mobilschool.fintrack.ui.base.BaseDialogFragment
+import com.mobilschool.fintrack.ui.adapter.CategoriesAdapter
+import com.mobilschool.fintrack.ui.base.BaseBottomSheetFragment
 import com.mobilschool.fintrack.util.KeyboardUtil
 import com.mobilschool.fintrack.util.observe
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_transaction_add.*
 import timber.log.Timber
+import kotlin.math.roundToInt
 
-class TransactionAddBottomSheetFragment: BaseDialogFragment<TransactionAddViewModel>() {
-
-    lateinit var categoriesAdapter: CategoriesAdapter
+class TransactionAddBottomSheetFragment: BaseBottomSheetFragment<TransactionAddViewModel>() {
 
     companion object {
         val ARG_SELECTED_WALLET_ID = "selected_wallet_id"
-        fun newInstance(selWalletId: Int): TransactionAddBottomSheetFragment {
+        val ARG_TEMPLATE = "template"
+        fun newInstance(selWalletId: Int, templateId: Int): TransactionAddBottomSheetFragment {
             return  TransactionAddBottomSheetFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SELECTED_WALLET_ID, selWalletId)
+                    putInt(ARG_TEMPLATE, templateId)
                 }
             }
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        KeyboardUtil(requireActivity(), view!!)
-        return view
-    }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), this.theme)
-        dialog.setOnShowListener { dial ->
-            val d = dial as BottomSheetDialog
-            val bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout?
-            bottomSheet!!.setBackgroundResource(R.drawable.rounded_rect)
-            BottomSheetBehavior.from(bottomSheet!!).state = BottomSheetBehavior.STATE_EXPANDED
-        }
-        return dialog
-    }
+    override val showExpanded = true
+    override val withRoundedCorners = true
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    lateinit var categoriesAdapter: CategoriesAdapter
+
+    override fun handleArguments() {
+        super.handleArguments()
         if(arguments != null){
-            viewModel.setWalletId(arguments!!.getInt(ARG_SELECTED_WALLET_ID))
+            viewModel.walletId.value = arguments!!.getInt(ARG_SELECTED_WALLET_ID)
+            if(arguments!!.getInt(ARG_TEMPLATE) > 0){
+                viewModel.templateId.value = arguments!!.getInt(ARG_TEMPLATE)
+            }
         }
+    }
 
+    override fun initAdapters() {
+        super.initAdapters()
+        categoriesAdapter = CategoriesAdapter(requireContext())
+        spinner_categories.adapter = categoriesAdapter
+    }
+
+    override fun initUI() {
+        super.initUI()
         val sumTextWatcher = object : TextWatcher {
             override fun afterTextChanged(txt: Editable?) {
                 val amount = txt.toString().toDoubleOrNull() ?: -100.0
@@ -74,22 +77,20 @@ class TransactionAddBottomSheetFragment: BaseDialogFragment<TransactionAddViewMo
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         }
 
-        categoriesAdapter = CategoriesAdapter(requireContext())
-        spinner_categories.adapter = categoriesAdapter
 
         spinner_categories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, p3: Long) {
                 if(position >= 0 && categoriesAdapter.data.size > position){
-                    viewModel.setSelectedCategoryId(categoriesAdapter.data[position].id)
+                    viewModel.selectedCategoryId.value = categoriesAdapter.data[position].id
                 }
             }
 
         }
 
         rg_transaction_type.setOnCheckedChangeListener { radioGroup, i ->
-            viewModel.setTransactionType(when(i){
+            viewModel.transactionType.value = (when(i){
                 R.id.rb_expense -> { Timber.i("EXPENCE RB") ; TransactionType.EXPENSE}
                 R.id.rb_income -> { Timber.i("INCOME RB") ; TransactionType.INCOME }
                 else -> { Timber.i("ELSE") ; TransactionType.EXPENSE }
@@ -107,8 +108,8 @@ class TransactionAddBottomSheetFragment: BaseDialogFragment<TransactionAddViewMo
             }else{
                 val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(this@TransactionAddBottomSheetFragment.view?.windowToken, 0)
-                Timber.i(viewModel.getSelectedCategoryId().value?.toString() ?: "NULL")
-                if(viewModel.getSelectedCategoryId().value == null || viewModel.getSelectedCategoryId().value!! < 0){
+                Timber.i(viewModel.selectedCategoryId.value?.toString() ?: "NULL")
+                if(viewModel.selectedCategoryId.value == null || viewModel.selectedCategoryId.value!! < 0){
                     Toast.makeText(requireContext(), R.string.error_select_category, Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
@@ -117,27 +118,32 @@ class TransactionAddBottomSheetFragment: BaseDialogFragment<TransactionAddViewMo
                 dismiss()
             }
         }
-
-        initObservers()
     }
 
+    override fun initObservers(){
 
-    fun initObservers(){
-        viewModel.getWallet().observe(this, {
-            tv_new_transaction_currency.text = it.wallet.currencyId
+        viewModel.wallet.observe(this, {
+            tv_new_transaction_currency.text = it.currencySymbol
         })
 
-        viewModel.getTransactionType().observe(this, {
+        viewModel.transactionType.observe(this, {
             rg_transaction_type.check(
                     if(it == TransactionType.INCOME) R.id.rb_income
                     else R.id.rb_expense
             )
         })
 
-        viewModel.getCategories().observe(this, {
+        viewModel.categories.observe(this, {
             categoriesAdapter.data = it
             spinner_categories.setSelection(0)
-            viewModel.setSelectedCategoryId(categoriesAdapter.data[0].id)
+            viewModel.selectedCategoryId.value = categoriesAdapter.data[0].id
+        })
+
+        viewModel.template.observe(this, { tpl ->
+            viewModel.walletId.value = tpl.transaction.walletId
+            viewModel.transactionType.value = tpl.transaction.type
+            viewModel.selectedCategoryId.value = tpl.transaction.categoryId
+            et_sum.setText(tpl.transaction.amount.roundToInt().toString())
         })
     }
 

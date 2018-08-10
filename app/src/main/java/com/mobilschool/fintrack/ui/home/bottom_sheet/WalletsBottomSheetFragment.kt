@@ -8,35 +8,38 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import android.widget.FrameLayout
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import com.mobilschool.fintrack.data.entity.WalletFull
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
 import com.mobilschool.fintrack.data.source.local.entity.WalletTypeConverter
+import com.mobilschool.fintrack.ui.base.BaseBottomSheetFragment
 import com.mobilschool.fintrack.ui.base.BaseDialogFragment
 import com.mobilschool.fintrack.ui.home.HomeViewModel
 import com.mobilschool.fintrack.util.observe
 import kotlinx.android.synthetic.main.fragment_bottom_sheet_wallets.*
 
 
-class WalletsBottomSheetFragment : BaseDialogFragment<HomeViewModel>() {
+class WalletsBottomSheetFragment : BaseBottomSheetFragment<HomeViewModel>() {
+
+
+    override val showExpanded= true
+    override val withRoundedCorners = true
 
     var localWallets = listOf<WalletFull>()
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = BottomSheetDialog(requireContext(), this.theme)
-        // We want always expand dialog on start
-        dialog.setOnShowListener { dial ->
-            val d = dial as BottomSheetDialog
-            val bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout?
-            bottomSheet!!.setBackgroundResource(R.drawable.rounded_rect)
-            BottomSheetBehavior.from(bottomSheet!!).state = BottomSheetBehavior.STATE_EXPANDED
+    override fun initUI() {
+        super.initUI()
+        nav_view_home.menu.findItem(R.id.nav_templates_periodics).setOnMenuItemClickListener {
+            // TODO: REFACTOR NAVIGATION
+            Navigation.findNavController(parentFragment?.view!!).navigate(R.id.action_homeFragment_to_templatesPeriodicsFragment)
+            this@WalletsBottomSheetFragment.dismiss()
+            true
         }
-        return dialog
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.getWallets().observe(this, { wallets ->
+    override fun initObservers() {
+        super.initObservers()
+        viewModel.wallets.observe(this, { wallets ->
             val menu = nav_view_wallets.menu
             menu.clear()
             localWallets = wallets
@@ -45,14 +48,14 @@ class WalletsBottomSheetFragment : BaseDialogFragment<HomeViewModel>() {
                 menuItem.setIcon(WalletTypeConverter.walletTypeToDrawableRes(wallet.wallet.type))
                 menuItem.setCheckable(true)
                 menuItem.setOnMenuItemClickListener {
-                    viewModel.setSelectedWalletId(wallet.wallet.id)
+                    viewModel.selectedWalletId.value = wallet.wallet.id
                     this@WalletsBottomSheetFragment.dismiss()
                     true
                 }
             }
         })
 
-        viewModel.getSelectedWalletId().observe(this, { selWalletId ->
+        viewModel.selectedWalletId.observe(this, { selWalletId ->
             val menuItem = nav_view_wallets.menu.getItem(localWallets.indexOfFirst { it.wallet.id == selWalletId })
             if(!menuItem.isChecked){
                 menuItem.isChecked = true
@@ -61,6 +64,5 @@ class WalletsBottomSheetFragment : BaseDialogFragment<HomeViewModel>() {
     }
 
     override fun getLayoutRes(): Int = R.layout.fragment_bottom_sheet_wallets
-
     override fun provideViewModel(): HomeViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[HomeViewModel::class.java]
 }

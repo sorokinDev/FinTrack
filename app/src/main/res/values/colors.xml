@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#808285</color>
+    <color name="colorPrimaryDark">#e4808285</color>
     <color name="colorAccent">#4981d7</color>
     <color name="colorAccentPale">#4d6293de</color>
 
     <color name="colorPrimaryText">#333333</color>
+    <color name="colorSecondaryText">#444444</color>
 
     <color name="colorExpense">#F33F33</color>
     <color name="colorIncome">#009988</color>

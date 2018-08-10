@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
@@ -14,19 +15,33 @@ import androidx.viewpager.widget.ViewPager
 import com.mobilschool.fintrack.R
 import com.mobilschool.fintrack.data.entity.TemplateFull
 import com.mobilschool.fintrack.ui.base.BaseFragment
+import com.mobilschool.fintrack.ui.home.bottom_sheet.WalletsBottomSheetFragment
+import com.mobilschool.fintrack.ui.template.add.TemplateAddFragment
 import com.mobilschool.fintrack.util.observe
 import com.mobilschool.fintrack.util.toMoneyString
 import kotlinx.android.synthetic.main.fragment_templates_periodic.*
 
 class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
-    val vpAdapter = VPAdapter()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        tl_templates_periodics.setupWithViewPager(vp_templates_periodics)
+    lateinit var vpAdapter: VPAdapter
 
+    override fun initAdapters() {
+        super.initAdapters()
+        vpAdapter = VPAdapter()
         vp_templates_periodics.adapter = vpAdapter
+    }
 
+    override fun initUI() {
+        super.initUI()
+        tl_templates_periodics.setupWithViewPager(vp_templates_periodics)
+        fab_add_template.setOnClickListener {
+            val bottomSheetTemplate = TemplateAddFragment.newInstance(vp_templates_periodics.currentItem == 1)
+            bottomSheetTemplate.show(fragmentManager, "template_add_fragment")
+        }
+    }
+
+    override fun initObservers() {
+        super.initObservers()
         viewModel.templates.observe(this, {
             vpAdapter.templateAdapter.setData(it)
         })
@@ -34,9 +49,7 @@ class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
         viewModel.periodics.observe(this, {
             vpAdapter.periodicAdapter.setData(it)
         })
-
     }
-
 
     override fun getLayoutRes(): Int = R.layout.fragment_templates_periodic
     override fun provideViewModel(): TemplatesPeriodicsViewModel = getViewModel(viewModelFactory)
@@ -103,6 +116,7 @@ class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
                 tvCategory.text = item.categoryName
                 tvWallet.text = item.walletName
                 tvSum.text = "${item.transaction.amount.toMoneyString()} ${item.currencySymbol}"
+
             }
         }
 

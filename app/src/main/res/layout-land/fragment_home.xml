@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="0dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:textColor="@color/colorRed"
+                        android:id="@+id/tv_logo_ya"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/logo_ya"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_logo_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/current_balance"
+                        android:textSize="24sp"
+                        app:layout_constraintStart_toEndOf="@id/tv_logo_ya"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="@string/current_balance"
+                        android:textSize="24sp"
+                        app:layout_constraintBaseline_toBaselineOf="@id/tv_logo_ya"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="123.456 R" />
+
+                    <TextView
+                        android:id="@+id/tv_current_wallet_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_balance"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_balance"
+                        tools:text="Cash" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_balance_in_fav_currencies"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F5F5F5"
+                    tools:listitem="@layout/item_balance_with_currency"
+                    tools:layout_height="64dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_templates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    tools:listitem="@layout/item_template_in_home"
+                    tools:layout_height="80dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_transactions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_transaction"/>
+            <ScrollView
+                android:id="@+id/content_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:fillViewport="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:text="@string/no_data"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="256dp"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@drawable/placeholder_no_data"/>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_new_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/btn_new_transaction"
+        app:cornerRadius="24dp"
+        app:icon="@drawable/ic_add_white_24dp"
+        app:layout_anchor="@id/app_bar_bottom"
+        app:layout_anchorGravity="center_horizontal"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior" />
+
+    <!-- Fake shadow on top of bottom app bar because of android shadowing system -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_gravity="top|center_horizontal"
+        android:background="@drawable/horizontal_shadow_gradient"
+        app:layout_anchor="@id/app_bar_bottom"
+        app:layout_anchorGravity="center_horizontal" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/app_bar_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:hideOnScroll="true"
+        app:navigationIcon="@drawable/ic_menu_black_24dp" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

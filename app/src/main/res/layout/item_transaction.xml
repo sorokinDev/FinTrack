@@ -16,11 +16,10 @@
 
     <TextView
         android:id="@+id/tv_trans_target"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_trans_category"
         app:layout_constraintStart_toEndOf="@+id/iv_trans_category"
         app:layout_constraintTop_toTopOf="@+id/iv_trans_category"

@@ -118,7 +118,6 @@
     <string name="description_app">Описание: \n Приложение для управления личными финансами \n Разработчик: Зеленин Р.А., Сорокин В. А. \n ШМР Яндекс \n 2018</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="accounts">Accounts</string>
     <string name="expense">Expense</string>
     <string name="add_transaction">New transaction</string>
@@ -144,7 +143,6 @@
     <string name="transaction_added">Transaction added!</string>
     <string name="error_invalid_period">Invalid number of days</string>
     <string name="periodic_transaction_added">Periodic transaction added!</string>
-    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id cursus neque. Mauris a ante quis elit rutrum convallis. Donec sit amet tortor a odio pharetra congue. Morbi blandit ligula vitae imperdiet facilisis. Nulla rutrum feugiat justo, eget elementum enim consectetur non. Curabitur vestibulum lectus nunc, sed varius turpis viverra non. Nullam semper, dui a venenatis porta, sem mauris commodo lectus, vitae pulvinar massa nisl at odio. Maecenas pulvinar nisi aliquet orci porttitor posuere. Mauris gravida lacus at dolor bibendum, quis consequat ligula mattis.  Ut id massa odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam non vestibulum augue. Vestibulum dictum, justo sit amet porta pretium, ligula sapien mattis tellus, consectetur interdum quam magna sed diam. Nunc interdum orci maximus erat hendrerit, id mattis sapien iaculis. Aenean tellus est, feugiat sed faucibus a, dictum sit amet felis. Duis hendrerit malesuada nisl vitae tempor. Nunc non posuere magna. Donec enim neque, porta a justo a, commodo vehicula lorem. Etiam ac pharetra ex, at mattis neque. Aliquam felis sem, bibendum a ultrices ut, molestie non eros.  Vestibulum rutrum gravida laoreet. Donec arcu felis, volutpat sagittis malesuada maximus, ornare in nibh. Fusce id nunc aliquam, egestas enim nec, mattis mi. Nunc non est velit. Maecenas imperdiet rhoncus dictum. Sed rhoncus justo vel lorem iaculis luctus. Phasellus eget odio enim. Aliquam erat volutpat. Aliquam bibendum id ex in placerat. Ut vel blandit mi. Aliquam enim nisl, euismod pellentesque vestibulum nec, rutrum vel ex. Integer tincidunt, ipsum id mattis suscipit, felis augue consectetur ipsum, ut semper nulla ante a augue. Donec maximus fermentum dui, et dignissim nisl porttitor vitae.  Vivamus eu tortor efficitur, facilisis enim non, laoreet magna. Donec vitae velit vel risus condimentum aliquet. Etiam a tortor sed sapien dictum congue eget id neque. Vestibulum semper laoreet malesuada. Integer sed tristique velit. Praesent blandit metus at velit egestas, ut sollicitudin ante eleifend. Vestibulum interdum nibh lacus, sed viverra tortor lacinia ut. Duis vitae massa augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt sapien lobortis nisi vestibulum, eget ornare diam luctus. Aliquam non ipsum sapien. Etiam non metus eget eros tristique maximus. In in ultricies lorem. Nunc ornare arcu a enim imperdiet accumsan. Nam cursus eu metus non interdum. Suspendisse in molestie nibh.  Donec sit amet euismod quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Ut pulvinar, velit ut aliquet venenatis, diam quam egestas ipsum, in rhoncus lectus mi eget sapien. Nam sed finibus tortor. Sed dui lectus, convallis nec dictum sed, varius nec felis. Proin facilisis quam tortor, quis fermentum ante vestibulum vel. Mauris et magna blandit, cursus arcu vitae, rutrum sem. Nullam vitae congue risus, nec malesuada lectus. Nulla tincidunt, urna id gravida faucibus, nisl neque semper ante, porta ullamcorper diam eros sit amet leo. Cras commodo ex a facilisis mollis. Suspendisse laoreet bibendum lectus, vel interdum lorem viverra sed. Suspendisse sit amet arcu molestie, porttitor dui et, tincidunt sem.</string>
     <string name="btn_new_transaction">New transaction</string>
     <string name="show_in_other_currencies">In other currencies</string>
     <string name="logo_ya">Ya.</string>
@@ -153,5 +151,6 @@
     <string name="templates">Templates</string>
     <string name="periodic">Periodic</string>
     <string name="gifts">Gifts</string>
+    <string name="no_data">No data</string>
 
 </resources>
