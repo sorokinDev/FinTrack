@@ -19,8 +19,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
 
-
-
     lateinit var balanceInCurrenciesAdapter: BalanceAdapter
     lateinit var transactionsAdapter: TransactionAdapter
     lateinit var templatesAdapter: TemplateAdapter
@@ -64,6 +62,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             val bottomSheetWallets = TransactionAddBottomSheetFragment.newInstance(viewModel.selectedWalletId.value!!, -1)
             bottomSheetWallets.show(fragmentManager, "bottom_sheet_transaction_add")
         }
+
     }
 
     override fun initObservers() {

@@ -99,7 +99,6 @@ class TransactionAddBottomSheetFragment: BaseBottomSheetFragment<TransactionAddV
         rg_transaction_type.check(R.id.rb_expense)
 
         btn_confirm_new_transaction.setOnClickListener {
-            // TODO move this condition to ViewModel
             val amount = et_sum.text.toString().toDoubleOrNull() ?: -100.0
             if(amount <= 0){
                 til_sum.error = getString(R.string.error_invalid_number)

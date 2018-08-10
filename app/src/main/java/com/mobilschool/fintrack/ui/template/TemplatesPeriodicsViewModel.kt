@@ -9,9 +9,11 @@ import javax.inject.Inject
 class TemplatesPeriodicsViewModel @Inject constructor(
         val walletInteractor: WalletInteractor
 ): BaseViewModel() {
-
     val templates = walletInteractor.getAllTemplates()
-
     val periodics = walletInteractor.getAllPeriodics()
+
+    fun deleteTemplate(template: TemplateFull) {
+        walletInteractor.deleteTemplateWithId(template.transaction.id)
+    }
 
 }

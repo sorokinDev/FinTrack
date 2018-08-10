@@ -8,15 +8,6 @@
     android:paddingBottom="12dp"
     android:paddingStart="16dp">
 
-    <!--<ImageView
-        android:id="@+id/iv_trans_target_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/travel" />
--->
     <TextView
         android:id="@+id/tv_periodic_category"
         android:layout_width="0dp"
@@ -40,16 +31,22 @@
         android:id="@+id/tv_periodic_sum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="8dp"
         android:gravity="end"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_delete_periodic"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_periodic_category"
         tools:text="1000 RUB" />
+
+    <TextView
+        android:id="@+id/tv_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/template_every_x_days"
+        app:layout_constraintEnd_toEndOf="@+id/tv_periodic_sum"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_periodic_wallet"
+        tools:text="Every 5 days" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btn_delete_periodic"

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import com.mobilschool.fintrack.data.entity.WalletFull
 import com.mobilschool.fintrack.data.source.local.entity.Wallet
 import com.mobilschool.fintrack.data.source.local.entity.WalletTypeConverter
+import com.mobilschool.fintrack.ui.about.AboutDialogFragment
 import com.mobilschool.fintrack.ui.base.BaseBottomSheetFragment
 import com.mobilschool.fintrack.ui.base.BaseDialogFragment
 import com.mobilschool.fintrack.ui.home.HomeViewModel
@@ -30,8 +31,13 @@ class WalletsBottomSheetFragment : BaseBottomSheetFragment<HomeViewModel>() {
     override fun initUI() {
         super.initUI()
         nav_view_home.menu.findItem(R.id.nav_templates_periodics).setOnMenuItemClickListener {
-            // TODO: REFACTOR NAVIGATION
             Navigation.findNavController(parentFragment?.view!!).navigate(R.id.action_homeFragment_to_templatesPeriodicsFragment)
+            this@WalletsBottomSheetFragment.dismiss()
+            true
+        }
+
+        nav_view_home.menu.findItem(R.id.about).setOnMenuItemClickListener {
+            AboutDialogFragment().show(fragmentManager, "about")
             this@WalletsBottomSheetFragment.dismiss()
             true
         }

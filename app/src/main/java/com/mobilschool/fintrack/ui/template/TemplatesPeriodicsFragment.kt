@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,13 @@ import com.mobilschool.fintrack.ui.template.add.TemplateAddFragment
 import com.mobilschool.fintrack.util.observe
 import com.mobilschool.fintrack.util.toMoneyString
 import kotlinx.android.synthetic.main.fragment_templates_periodic.*
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.res.ResourcesCompat
+import com.mobilschool.fintrack.data.source.local.entity.TransactionType
+import java.util.concurrent.TimeUnit
+
 
 class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
 
@@ -80,6 +89,7 @@ class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
 
             rv_templates.layoutManager = LinearLayoutManager(container.context, LinearLayoutManager.VERTICAL, false)
 
+
             if(position == 0){
                 rv_templates.adapter = templateAdapter
             }else{
@@ -97,26 +107,50 @@ class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
         override fun isViewFromObject(view: View, obj: Any) = view == obj
     }
 
-    class RVTemplateAdapter: RecyclerView.Adapter<RVTemplateAdapter.ViewHolder>() {
+    inner class RVTemplateAdapter: RecyclerView.Adapter<RVTemplateAdapter.ViewHolder>() {
         var items = listOf<TemplateFull>()
 
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             val tvCategory: TextView
             val tvSum: TextView
             val tvWallet: TextView
+            val btnDelete: AppCompatImageButton
 
             init {
                 tvCategory = itemView.findViewById(R.id.tv_template_category)
                 tvSum = itemView.findViewById(R.id.tv_template_sum)
                 tvWallet = itemView.findViewById(R.id.tv_template_wallet)
+                btnDelete = itemView.findViewById(R.id.btn_delete_template)
+                btnDelete.setOnClickListener {
+                    if(adapterPosition != RecyclerView.NO_POSITION){
+                        val builder = AlertDialog.Builder(requireContext())
+
+                        builder.setTitle(R.string.deletion)
+                        builder.setMessage(R.string.are_you_sure_delete)
+
+                        builder.setPositiveButton(R.string.yes) { dialog, which ->
+                            viewModel.deleteTemplate(items[adapterPosition])
+                            dialog.dismiss()
+                        }
+
+                        builder.setNegativeButton(R.string.no) { dialog, which ->
+
+                            dialog.dismiss()
+                        }
+
+                        val alert = builder.create()
+                        alert.show()
+                    }
+                }
             }
 
             fun bind(item: TemplateFull){
                 tvCategory.text = item.categoryName
                 tvWallet.text = item.walletName
                 tvSum.text = "${item.transaction.amount.toMoneyString()} ${item.currencySymbol}"
-
+                val textColor = ResourcesCompat.getColor(tvSum.resources, if(item.transaction.type == TransactionType.EXPENSE) { R.color.colorExpense } else { R.color.colorIncome }, null)
+                tvSum.setTextColor(textColor)
             }
         }
 
@@ -138,25 +172,53 @@ class TemplatesPeriodicsFragment : BaseFragment<TemplatesPeriodicsViewModel>() {
     }
 
 
-    class RVPeriodicAdapter: RecyclerView.Adapter<RVPeriodicAdapter.ViewHolder>() {
+    inner class RVPeriodicAdapter: RecyclerView.Adapter<RVPeriodicAdapter.ViewHolder>() {
         var items = listOf<TemplateFull>()
 
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             val tvCategory: TextView
             val tvSum: TextView
             val tvWallet: TextView
+            val tvPeriod: TextView
+            val btnDelete: AppCompatImageButton
 
             init {
                 tvCategory = itemView.findViewById(R.id.tv_periodic_category)
                 tvSum = itemView.findViewById(R.id.tv_periodic_sum)
                 tvWallet = itemView.findViewById(R.id.tv_periodic_wallet)
+                tvPeriod = itemView.findViewById(R.id.tv_period)
+                btnDelete = itemView.findViewById(R.id.btn_delete_periodic)
+                btnDelete.setOnClickListener {
+                    if(adapterPosition != RecyclerView.NO_POSITION){
+                        val builder = AlertDialog.Builder(requireContext())
+
+                        builder.setTitle(R.string.deletion)
+                        builder.setMessage(R.string.are_you_sure_delete)
+
+                        builder.setPositiveButton(R.string.yes) { dialog, which ->
+                            viewModel.deleteTemplate(items[adapterPosition])
+                            dialog.dismiss()
+                        }
+
+                        builder.setNegativeButton(R.string.no) { dialog, which ->
+
+                            dialog.dismiss()
+                        }
+
+                        val alert = builder.create()
+                        alert.show()
+                    }
+                }
             }
 
             fun bind(item: TemplateFull){
                 tvCategory.text = item.categoryName
                 tvWallet.text = item.walletName
                 tvSum.text = "${item.transaction.amount.toMoneyString()} ${item.currencySymbol}"
+                val textColor = ResourcesCompat.getColor(tvSum.resources, if(item.transaction.type == TransactionType.EXPENSE) { R.color.colorExpense } else { R.color.colorIncome }, null)
+                tvSum.setTextColor(textColor)
+                tvPeriod.text = tvPeriod.resources.getString(R.string.template_every_x_days, (item.transaction.period / TimeUnit.DAYS.toMillis(1)).toInt())
             }
         }
 

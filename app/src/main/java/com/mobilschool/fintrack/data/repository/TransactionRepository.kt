@@ -67,5 +67,11 @@ class TransactionRepository @Inject constructor(val transactionDao: TransactionD
         return templateDao.getTemplateById(id)
     }
 
+    fun deleteTemplateWithId(id: Int) {
+        launch {
+            templateDao.deleteWithId(id)
+        }
+    }
+
 
 }

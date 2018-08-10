@@ -149,5 +149,10 @@
     <string name="periodic">Периодические</string>
     <string name="gifts">Подарки</string>
     <string name="no_data">Добавьте первую транзакцию.</string>
+    <string name="deletion">Удаление</string>
+    <string name="are_you_sure_delete">Вы действительно хотите удалить этот элемент?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="template_every_x_days">Каждые %1$d дн.</string>
 
 </resources>

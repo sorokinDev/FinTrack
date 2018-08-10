@@ -64,5 +64,8 @@ interface TemplateDao : BaseDao<Template>{
         """)
     fun getTemplateById(id: Int): LiveData<TemplateFull>
 
+    @Query("DELETE FROM templates WHERE id = :id")
+    fun deleteWithId(id: Int)
+
 
 }

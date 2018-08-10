@@ -96,10 +96,6 @@ dependencies {
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    // TODO: remove dialogs library
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
-
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
 
     testImplementation 'junit:junit:4.12'

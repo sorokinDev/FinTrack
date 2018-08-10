@@ -121,5 +121,9 @@ class WalletInteractor @Inject constructor(
         return transactionRepository.getAllPeriodicTransactions()
     }
 
+    fun deleteTemplateWithId(id: Int) {
+        transactionRepository.deleteTemplateWithId(id)
+    }
+
 
 }
