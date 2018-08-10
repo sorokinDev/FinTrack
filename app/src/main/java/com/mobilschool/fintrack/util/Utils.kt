@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import com.mobilschool.fintrack.data.source.local.entity.Currency
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -18,7 +19,7 @@ fun Date.diff(date1: Date): Long{
 
 
 typealias CurrencyPair = Pair<String, String>
-typealias CurrencyAmountPair = Pair<String, Double>
+typealias CurrencyAmountPair = Pair<Currency, Double>
 
 fun Context.isNetworkStatusAvailable(): Boolean {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager

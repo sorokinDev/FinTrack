@@ -24,8 +24,11 @@ android {
             }
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
     buildTypes {
-        debug{
+        debug {
             minifyEnabled false
         }
 
@@ -39,7 +42,6 @@ android {
 ext {
     appcompat_version = "1.0.0-beta01"
     constraint_layout_version = "1.1.2"
-    vector_drawable_version = "1.0.0-alpha1"
     moxy_version = "1.5.5"
     cicerone_version = "3.0.0"
     dagger_version = "2.16"
@@ -60,6 +62,8 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
     implementation "androidx.cardview:cardview:$appcompat_version"
+    implementation "androidx.recyclerview:recyclerview:$appcompat_version"
+    implementation "com.google.android.material:material:$appcompat_version"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -93,22 +97,20 @@ dependencies {
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    // TODO: remove dialogs library
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
-
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation "androidx.room:room-testing:$room_version"
     testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$lifecycle_version"
     testImplementation 'org.mockito:mockito-core:2.19.0'
 }
 
-kotlin{
-    experimental{
+kotlin {
+    experimental {
         coroutines 'enable'
     }
 }
