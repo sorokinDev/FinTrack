@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "37df80f9f1fc01d4a020596fa7f92aa1",
+    "identityHash": "09b6ca1759d4478eb24b3cb10731e70c",
     "entities": [
       {
-        "tableName": "money_currencies",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`code` TEXT NOT NULL, `symbol` TEXT NOT NULL, `is_favorite` INTEGER NOT NULL, PRIMARY KEY(`code`))",
+        "tableName": "currencies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `symbol` TEXT NOT NULL, `is_favorite` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "code",
-            "columnName": "code",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -29,7 +29,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "code"
+            "id"
           ],
           "autoGenerate": false
         },
@@ -38,11 +38,11 @@
       },
       {
         "tableName": "exchange_rates",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`currencies` TEXT NOT NULL, `rate` REAL NOT NULL, `date` INTEGER NOT NULL, PRIMARY KEY(`currencies`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `rate` REAL NOT NULL, `date` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
-            "fieldPath": "currencies",
-            "columnName": "currencies",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -61,7 +61,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "currencies"
+            "id"
           ],
           "autoGenerate": false
         },
@@ -70,7 +70,7 @@
       },
       {
         "tableName": "wallets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `currency` TEXT NOT NULL, `balance` REAL NOT NULL, `wallet_type` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currency_id` TEXT NOT NULL, `balance` REAL NOT NULL, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, FOREIGN KEY(`currency_id`) REFERENCES `currencies`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -79,14 +79,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "currency",
-            "columnName": "currency",
+            "fieldPath": "currencyId",
+            "columnName": "currency_id",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -97,8 +91,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "walletType",
-            "columnName": "wallet_type",
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -109,12 +109,33 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "wallet_currency_id",
+            "unique": false,
+            "columnNames": [
+              "currency_id"
+            ],
+            "createSql": "CREATE  INDEX `wallet_currency_id` ON `${TABLE_NAME}` (`currency_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "currencies",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "currency_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
-        "tableName": "money_transactions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `walletId` INTEGER NOT NULL, `amount` REAL NOT NULL, `date` INTEGER NOT NULL, `transaction_type` INTEGER NOT NULL, `category_id` INTEGER NOT NULL)",
+        "tableName": "transactions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currency_id` TEXT NOT NULL, `wallet_id` INTEGER NOT NULL, `date` INTEGER NOT NULL, `amount` REAL NOT NULL, `category_id` INTEGER NOT NULL, `type` INTEGER NOT NULL, FOREIGN KEY(`currency_id`) REFERENCES `currencies`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`wallet_id`) REFERENCES `wallets`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -123,8 +144,20 @@
             "notNull": true
           },
           {
+            "fieldPath": "currencyId",
+            "columnName": "currency_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "walletId",
-            "columnName": "walletId",
+            "columnName": "wallet_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -135,20 +168,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "date",
-            "columnName": "date",
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "type",
-            "columnName": "transaction_type",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "category",
-            "columnName": "category_id",
+            "columnName": "type",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -159,12 +186,71 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "transaction_currency_id",
+            "unique": false,
+            "columnNames": [
+              "currency_id"
+            ],
+            "createSql": "CREATE  INDEX `transaction_currency_id` ON `${TABLE_NAME}` (`currency_id`)"
+          },
+          {
+            "name": "transaction_wallet_id",
+            "unique": false,
+            "columnNames": [
+              "wallet_id"
+            ],
+            "createSql": "CREATE  INDEX `transaction_wallet_id` ON `${TABLE_NAME}` (`wallet_id`)"
+          },
+          {
+            "name": "transaction_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "createSql": "CREATE  INDEX `transaction_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "currencies",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "currency_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "wallets",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "wallet_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "categories",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "category_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
-        "tableName": "transaction_categories",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `transaction_type` INTEGER NOT NULL)",
+        "tableName": "categories",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `type` INTEGER NOT NULL, `img_res` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -180,7 +266,13 @@
           },
           {
             "fieldPath": "type",
-            "columnName": "transaction_type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imgRes",
+            "columnName": "img_res",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -195,8 +287,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "periodic_transactions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `walletId` INTEGER NOT NULL, `amount` REAL NOT NULL, `last_execution` INTEGER NOT NULL, `frequency` INTEGER NOT NULL, `transaction_type` INTEGER NOT NULL, `category_id` INTEGER NOT NULL)",
+        "tableName": "templates",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currency_id` TEXT NOT NULL, `wallet_id` INTEGER NOT NULL, `date` INTEGER NOT NULL, `amount` REAL NOT NULL, `category_id` INTEGER NOT NULL, `type` INTEGER NOT NULL, `period` INTEGER NOT NULL, FOREIGN KEY(`currency_id`) REFERENCES `currencies`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`wallet_id`) REFERENCES `wallets`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -205,8 +297,20 @@
             "notNull": true
           },
           {
+            "fieldPath": "currencyId",
+            "columnName": "currency_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "walletId",
-            "columnName": "walletId",
+            "columnName": "wallet_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -217,26 +321,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "lastExecution",
-            "columnName": "last_execution",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "frequency",
-            "columnName": "frequency",
+            "fieldPath": "categoryId",
+            "columnName": "category_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "type",
-            "columnName": "transaction_type",
+            "columnName": "type",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "category",
-            "columnName": "category_id",
+            "fieldPath": "period",
+            "columnName": "period",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -247,13 +345,72 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "template_currency_id",
+            "unique": false,
+            "columnNames": [
+              "currency_id"
+            ],
+            "createSql": "CREATE  INDEX `template_currency_id` ON `${TABLE_NAME}` (`currency_id`)"
+          },
+          {
+            "name": "template_wallet_id",
+            "unique": false,
+            "columnNames": [
+              "wallet_id"
+            ],
+            "createSql": "CREATE  INDEX `template_wallet_id` ON `${TABLE_NAME}` (`wallet_id`)"
+          },
+          {
+            "name": "template_category_id",
+            "unique": false,
+            "columnNames": [
+              "category_id"
+            ],
+            "createSql": "CREATE  INDEX `template_category_id` ON `${TABLE_NAME}` (`category_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "currencies",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "currency_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "wallets",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "wallet_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "categories",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "category_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"37df80f9f1fc01d4a020596fa7f92aa1\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"09b6ca1759d4478eb24b3cb10731e70c\")"
     ]
   }
 }

@@ -1,9 +1,10 @@
 package com.mobilschool.fintrack.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import com.mobilschool.fintrack.data.entity.TemplateFull
+import com.mobilschool.fintrack.data.entity.TransactionFull
 import com.mobilschool.fintrack.data.source.local.dao.CategoryDao
-import com.mobilschool.fintrack.data.source.local.dao.PeriodicTransactionDao
+import com.mobilschool.fintrack.data.source.local.dao.TemplateDao
 import com.mobilschool.fintrack.data.source.local.dao.TransactionDao
 import com.mobilschool.fintrack.data.source.local.entity.*
 import kotlinx.coroutines.experimental.launch
@@ -12,51 +13,63 @@ import javax.inject.Inject
 
 class TransactionRepository @Inject constructor(val transactionDao: TransactionDao,
                                                 val categoryDao: CategoryDao,
-                                                val periodicTransactionDao: PeriodicTransactionDao) {
+                                                val templateDao: TemplateDao) {
 
-    fun getLastNTransactionsForWallet(n: Int, walletId: Int): LiveData<List<MoneyTransactionWithCategory>> {
-        return transactionDao.selectLastNTransactionsForWallet(n, walletId)
+    fun getLasyTransactionsForWallet(walletId: Int, n: Int): LiveData<List<TransactionFull>> {
+        return transactionDao.getTransactionsForWallet(walletId, n)
     }
 
-    fun insertOrUpdateTransaction(transaction: MoneyTransaction){
+    fun insertOrUpdateTransaction(transaction: Transaction){
         launch {
             transactionDao.insertOrUpdate(transaction)
         }
 
     }
 
-    fun insertAllTransactions(transactions: List<MoneyTransaction>){
+    fun insertAllTransactions(transactions: List<Transaction>){
         launch {
             transactionDao.insertOrUpdateAll(transactions)
         }
 
     }
 
-    fun getCategoriesByType(type: TransactionType): LiveData<List<TransactionCategory>>{
+    fun getCategoriesByType(type: TransactionType): LiveData<List<Category>>{
         return categoryDao.getCategoriesByType(type)
     }
 
-    fun getPeriodicTransactions(): LiveData<List<PeriodicTransaction>>{
-        return periodicTransactionDao.selectPeriodicTransactions()
+    fun getAllPeriodicTransactions(): LiveData<List<TemplateFull>>{
+        return templateDao.getAllPeriodicTransactions()
     }
 
-    fun getUnexecutedPeriodicTransactions(): LiveData<List<PeriodicTransaction>> {
-        return Transformations.map(getPeriodicTransactions()){ trans ->
-            trans.filter {
-                (it.lastExecution.time + it.frequency) < Date().time
-            }
+    fun getUnexecutedPeriodicTransactions(): LiveData<List<TemplateFull>> {
+        return templateDao.getPendingPeriodicTransactions(Date().time)
+    }
+
+    fun getAllTemplates() = templateDao.getAllTemplates()
+
+    fun updatePeriodicTransactionLastExecution(id: Int, newDate: Long) {
+        launch {
+            templateDao.updatePeriodicTransactionLastExecution(id, newDate)
         }
     }
 
-    fun updatePeriodicTransactionLastExecution(id: Int, newDate: Date) {
+    fun insertTemplate(trans: Template) {
         launch {
-            periodicTransactionDao.updatePeriodicTransactionLastExecution(id, newDate)
+            templateDao.insertOrUpdate(trans)
         }
     }
 
-    fun insertPeriodicTransaction(trans: PeriodicTransaction) {
+    fun getAllTemplatesByWalletId(walId: Int): LiveData<List<TemplateFull>> {
+        return templateDao.getAllTemplatesByWalletId(walId)
+    }
+
+    fun getTemplateById(id: Int): LiveData<TemplateFull> {
+        return templateDao.getTemplateById(id)
+    }
+
+    fun deleteTemplateWithId(id: Int) {
         launch {
-            periodicTransactionDao.insertOrUpdate(trans)
+            templateDao.deleteWithId(id)
         }
     }
 
